@@ -1,29 +1,18 @@
 package com.goteam.gohomerepairservicesapp;
 
-public class User {
+public abstract class User {
+    protected String uid;
 
-    public String name, email, accountType;
+    @SuppressWarnings("unused") // for Firebase usage
+    public User() { }
 
-    public User(){
-
+    public User(String uid) {
+        this.uid = uid;
     }
 
-    public User(String name, String email, String accountType){
-        this.name = name;
-        this.email = email;
-        this.accountType = accountType;
-
+    public String getUid() {
+        return uid;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
+    public abstract String getRoleName();
 }

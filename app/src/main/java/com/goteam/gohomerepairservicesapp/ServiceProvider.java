@@ -1,17 +1,17 @@
 package com.goteam.gohomerepairservicesapp;
 
 
-public class ServiceProvider extends Account{
+public class ServiceProvider extends User {
 
+    @SuppressWarnings("unused") // for Firebase usage
+    public ServiceProvider() { }
 
-    public ServiceProvider(){}
-
-    public ServiceProvider(String name, String email, String password){
-        super(name, email, password);
+    public ServiceProvider(String uid){
+        super(uid);
     }
 
-    public String getType(){
+    @Override
+    public String getRoleName() {
         return "Service Provider";
     }
-
 }

@@ -9,7 +9,6 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -18,7 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,15 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterActivity";
 
     private EditText emailAddressToRegister;
     private EditText nameToRegister;
     private EditText passwordToRegister;
-    private String email;
-    private String password;
-    private String name;
 
-    private RadioGroup radioGroupeAccountType;
+    private RadioGroup radioGroupAccountType;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference adminCreatedReference = database.getReference("Admin");
@@ -48,49 +44,47 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        radioGroupeAccountType = (RadioGroup) findViewById(R.id.radioGroup);
+
+        radioGroupAccountType = findViewById(R.id.radioGroup);
         emailAddressToRegister = findViewById(R.id.emailAddressRegister);
         nameToRegister = findViewById(R.id.nameRegister);
         passwordToRegister = findViewById(R.id.passwordRegister);
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    private boolean registerSimpleVerification(){
-        email = emailAddressToRegister.getText().toString().trim();
-        password = passwordToRegister.getText().toString().trim();
-        name = nameToRegister.getText().toString().trim();
-
-        if(email.isEmpty()){
+    private boolean registerSimpleVerification(String email, String name, String password) {
+        if (email.isEmpty()) {
             emailAddressToRegister.setError("Email is required");
             emailAddressToRegister.requestFocus();
             return false;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailAddressToRegister.setError("Please enter a valid email");
             emailAddressToRegister.requestFocus();
             return false;
         }
 
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             nameToRegister.setError("Name is required");
             nameToRegister.requestFocus();
             return false;
         }
 
-        if(!name.matches( "[a-zA-z]+([ '-][a-zA-Z]+)*" )){
+        // this might offend people with non-ascii characters in their names
+        /*if (!name.matches("[a-zA-z]+([ '-][a-zA-Z]+)*")) {
             nameToRegister.setError("Name must consist of letters.");
             nameToRegister.requestFocus();
             return false;
-        }
+        }*/
 
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             passwordToRegister.setError("Password is required");
             passwordToRegister.requestFocus();
             return false;
         }
 
-        if(password.length() < 6){
+        if (password.length() < 6) {
             passwordToRegister.setError("Password must have length of 6 or more characters");
             passwordToRegister.requestFocus();
             return false;
@@ -100,67 +94,93 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void btnRegisterUserClicked(View view) {
-        if(registerSimpleVerification()){
-            final ProgressDialog progressDialog = ProgressDialog.show(RegisterActivity.this, "Please Wait...", "Processing...", true);
-            final Task<AuthResult> error = firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    progressDialog.dismiss();
+        final String email = emailAddressToRegister.getText().toString().trim();
+        final String password = passwordToRegister.getText().toString().trim();
+        final String name = nameToRegister.getText().toString().trim();
 
-                    if (task.isSuccessful()) {
+        if (!registerSimpleVerification(email, name, password))
+            return;
 
-                        Account user=new Account();
+        final ProgressDialog progressDialog = ProgressDialog.show(RegisterActivity.this, "Processing", "Creating your account...", true);
 
-                        int selectedButton= radioGroupeAccountType.getCheckedRadioButtonId(); //get the selected account and switch through the options
-                        switch (selectedButton) {
-                            case (R.id.radioButton):
-                                user = new HomeOwner(name, email, password);
-                            case (R.id.radioButton2):
-                                user = new ServiceProvider(name, email, password);
-                            case (R.id.radioButton3): //If admin account is selected, check if an admin account has already been created, if so, ask the user to chose an other account type, if not store the boolean value
-                                //in firebase and create the admin account
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressDialog.dismiss();
 
-                                adminCreatedReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        isCreated = dataSnapshot.getValue(boolean.class);
-                                    }
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                User user;
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                                if (!isCreated) {
-                                    adminCreatedReference.setValue(true);
-                                    user = new Admin(name, email, password);
-                                } else {
-                                    Toast.makeText(RegisterActivity.this, "An admin account has already been created, making a home owner account instead.", Toast.LENGTH_LONG).show();
-                                    user = new HomeOwner(name, email, password);
-
-
-                                }
-                        }
-                            database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
-                                                Toast.makeText(RegisterActivity.this, "You have successfully registered.", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                                startActivity(intent);
-                                            } else {
-                                                // TODO display failure message
-                                            }
-                                        }
-                                    });
-                    } else {
-                        Log.e("ERROR", task.getException().toString());
-                        Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
+                if (!task.isSuccessful() || firebaseUser == null) {
+                    Log.e(TAG, "Failed to create user", task.getException());
+                    Toast.makeText(RegisterActivity.this, "Failed to create your account. Please try again.", Toast.LENGTH_LONG).show();
+                    return;
                 }
-            });
-        }
+
+                String uid = firebaseUser.getUid();
+
+                int selectedButton = radioGroupAccountType.getCheckedRadioButtonId(); //get the selected account and switch through the options
+
+                switch (selectedButton) {
+                    case (R.id.radioButton):
+                        user = new Homeowner(uid);
+                        break;
+
+                    case (R.id.radioButton2):
+                        user = new ServiceProvider(uid);
+                        break;
+
+                    case (R.id.radioButton3): //If admin account is selected, check if an admin account has already been created, if so, ask the user to chose an other account type, if not store the boolean value
+                        //in firebase and create the admin account
+
+                        adminCreatedReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                isCreated = dataSnapshot.getValue(boolean.class);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        if (!isCreated) {
+                            adminCreatedReference.setValue(true);
+                            user = new Admin(uid);
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "An admin account has already been created.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        break;
+
+                    default:
+                        Log.e(TAG, "Unexpected button ID " + selectedButton);
+                        return;
+                }
+
+                // set display name
+                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                firebaseUser.updateProfile(profileChangeRequest);
+
+                // save extra user info
+                database.getReference("Users").child(uid).setValue(user)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (!task.isSuccessful()) {
+                                Log.e(TAG, "Failed to save user info", task.getException());
+                                Toast.makeText(RegisterActivity.this, "Failed to create your account. Please try again.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            Toast.makeText(RegisterActivity.this, "You have successfully registered.", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+            }
+        });
     }
 }
