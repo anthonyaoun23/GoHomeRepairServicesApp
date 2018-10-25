@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+
     public void btnLoginUserClicked(View view){
         final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this,"Please wait...", "Processing...", true);
 
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "You have successfully logged in.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("Email",firebaseAuth.getCurrentUser().getEmail());
                     startActivity(intent);
                 } else {
