@@ -7,11 +7,7 @@ public class ServiceProvider extends Account{
     public ServiceProvider(){}
 
     public ServiceProvider(String name, String email, String password){
-        super(name, email, password);
-    }
-
-    public String getType(){
-        return "Service Provider";
+        super(name, email, password, "Service Provider");
     }
 
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference adminCreatedReference = database.getReference("Admin");
     private boolean isCreated; //boolean value to determine if an admin account has already been created
-    private boolean canCreate; //boolean value in order to determine if an account class has ben created (in register button method)
 
     private FirebaseAuth firebaseAuth;
 
@@ -113,12 +113,14 @@ public class RegisterActivity extends AppCompatActivity {
 
                         int selectedButton= radioGroupeAccountType.getCheckedRadioButtonId(); //get the selected account and switch through the options
                         switch (selectedButton) {
-                            case (R.id.radioButton):
-                                user = new HomeOwner(name, email, password);
-                            case (R.id.radioButton2):
+                            case R.id.radioButton: user = new HomeOwner(name, email, password);
+                                                    break;
+                            case R.id.radioButton2:
                                 user = new ServiceProvider(name, email, password);
-                            case (R.id.radioButton3): //If admin account is selected, check if an admin account has already been created, if so, ask the user to chose an other account type, if not store the boolean value
+                                break;
+                            case R.id.radioButton3: //If admin account is selected, check if an admin account has already been created, if so, ask the user to chose an other account type, if not store the boolean value
                                 //in firebase and create the admin account
+
 
                                 adminCreatedReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -132,11 +134,11 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 });
                                 if (!isCreated) {
-                                    adminCreatedReference.setValue(true);
+                                  adminCreatedReference.setValue(true);
                                     user = new Admin(name, email, password);
                                 } else {
-                                    Toast.makeText(RegisterActivity.this, "An admin account has already been created, making a home owner account instead.", Toast.LENGTH_LONG).show();
-                                    user = new HomeOwner(name, email, password);
+                                   Toast.makeText(RegisterActivity.this, "An admin account has already been created, making a home owner account instead.", Toast.LENGTH_LONG).show();
+                                   user = new HomeOwner(name, email, password);
 
 
                                 }

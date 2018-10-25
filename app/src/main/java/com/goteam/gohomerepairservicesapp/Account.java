@@ -4,16 +4,17 @@ public class Account {
     protected String name;
     protected String email;
     protected String password;
-    protected String type; //This is here so the compiler dosent complain when trying to pull type from firebase
+    protected String type;
 
 
     public Account(){}
 
 
-    public Account(String name, String email, String password){
+    public Account(String name, String email, String password,  String type){
         this.email=email;
         this.name=name;
         this.password=password;
+        this.type=type;
     }
 
     public String getName(){
@@ -38,5 +39,9 @@ public class Account {
 
     public void setEmail(){
         this.email=email;
+    }
+
+    public String getType(){
+        return type;
     }
 }
