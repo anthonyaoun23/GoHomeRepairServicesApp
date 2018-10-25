@@ -13,6 +13,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView userEmail, userName, userAccountType;
     private FirebaseAuth firebaseAuth;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,16 +40,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void loadUserInformation(){
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-
-        if(user.getEmail() != null){
-            userEmail.setText(user.getEmail());
-
+        if(firebaseAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
         }
-        if(user.getDisplayName() != null){
-            userName.setText(user.getDisplayName());
-        }
-
 
     }
 }

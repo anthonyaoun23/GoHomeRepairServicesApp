@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     public void btnLoginUserClicked(View view){
         final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this,"Please wait...", "Processing...", true);
 

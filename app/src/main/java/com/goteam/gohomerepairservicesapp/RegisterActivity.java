@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordToRegister;
     private String email;
     private String password;
+    private String name;
 
     private FirebaseAuth firebaseAuth;
 
@@ -44,6 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean registerSimpleVerification(){
         email = emailAddressToRegister.getText().toString().trim();
         password = passwordToRegister.getText().toString().trim();
+        name = nameToRegister.getText().toString().trim();
+
+        // name verification
 
         if(email.isEmpty()){
             emailAddressToRegister.setError("Email is required");
@@ -82,14 +86,14 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (task.isSuccessful()) {
-                        User user = new User(nameToRegister.getText().toString().trim(), email,null);
+                        User user = new User(name, email,null);
 
                         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(nameToRegister.getText().toString()).build();
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
                                             Toast.makeText(RegisterActivity.this, "You have successfully registered.", Toast.LENGTH_LONG).show();
                                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                             startActivity(intent);
