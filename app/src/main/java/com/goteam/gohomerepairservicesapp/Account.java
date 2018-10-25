@@ -4,6 +4,7 @@ public class Account {
     protected String name;
     protected String email;
     protected String password;
+    protected String type; //This is here so the compiler dosent complain when trying to pull type from firebase
 
 
     public Account(){}

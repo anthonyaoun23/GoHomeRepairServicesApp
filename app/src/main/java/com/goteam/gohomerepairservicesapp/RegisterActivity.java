@@ -20,7 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -32,7 +36,11 @@ public class RegisterActivity extends AppCompatActivity {
     private String name;
 
     private RadioGroup radioGroupeAccountType;
-    private RadioButton radioSelectedAccountType;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference adminCreatedReference = database.getReference("Admin");
+    private boolean isCreated; //boolean value to determine if an admin account has already been created
+    private boolean canCreate; //boolean value in order to determine if an account class has ben created (in register button method)
 
     private FirebaseAuth firebaseAuth;
 
@@ -103,30 +111,50 @@ public class RegisterActivity extends AppCompatActivity {
 
                         Account user=new Account();
 
-                        int selectedButton= radioGroupeAccountType.getCheckedRadioButtonId();
-                        switch (selectedButton){
-                            case(R.id.radioButton):
-                                user=new HomeOwner(name, email, password);
-                            case(R.id.radioButton2):
-                                user=new ServiceProvider(name, email, password);
-                            case(R.id.radioButton3):
-                                user=new Admin(name, email, password);
-                        }
+                        int selectedButton= radioGroupeAccountType.getCheckedRadioButtonId(); //get the selected account and switch through the options
+                        switch (selectedButton) {
+                            case (R.id.radioButton):
+                                user = new HomeOwner(name, email, password);
+                            case (R.id.radioButton2):
+                                user = new ServiceProvider(name, email, password);
+                            case (R.id.radioButton3): //If admin account is selected, check if an admin account has already been created, if so, ask the user to chose an other account type, if not store the boolean value
+                                //in firebase and create the admin account
 
-                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                adminCreatedReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
-                                            Toast.makeText(RegisterActivity.this, "You have successfully registered.", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                            startActivity(intent);
-                                        } else {
-                                            // TODO display failure message
-                                        }
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        isCreated = dataSnapshot.getValue(boolean.class);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
                                     }
                                 });
+                                if (!isCreated) {
+                                    adminCreatedReference.setValue(true);
+                                    user = new Admin(name, email, password);
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "An admin account has already been created, making a home owner account instead.", Toast.LENGTH_LONG).show();
+                                    user = new HomeOwner(name, email, password);
+
+
+                                }
+                        }
+                            database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                                                Toast.makeText(RegisterActivity.this, "You have successfully registered.", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                startActivity(intent);
+                                            } else {
+                                                // TODO display failure message
+                                            }
+                                        }
+                                    });
                     } else {
                         Log.e("ERROR", task.getException().toString());
                         Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();

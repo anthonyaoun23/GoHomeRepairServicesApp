@@ -9,15 +9,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="67dp">
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <TextView
             android:id="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome to TeamGo's Home Repair App" />
 
+        
         <TextView
             android:id="@+id/emailView"
             android:layout_width="wrap_content"
