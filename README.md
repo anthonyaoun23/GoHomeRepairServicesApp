@@ -4,5 +4,5 @@ The app addresses homeowner’s needs for on-demand home services. It allows use
 ## Team
 * Anthony Aoun (300014933)
 * Benoit Lafrance
-* Cedric Brisebois
+* Cedric Brisebois (300015373)
 * Nicolas Gnyra (300008835)
