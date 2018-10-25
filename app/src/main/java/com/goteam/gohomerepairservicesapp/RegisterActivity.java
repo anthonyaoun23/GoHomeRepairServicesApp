@@ -82,7 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (task.isSuccessful()) {
-                        User user = new User(nameToRegister.getText().toString().trim(), email,null);
+                        //User user = new User(nameToRegister.getText().toString().trim(), email,null);
+                        Account user = new Account(nameToRegister.getText().toString().trim(), )
 
                         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
