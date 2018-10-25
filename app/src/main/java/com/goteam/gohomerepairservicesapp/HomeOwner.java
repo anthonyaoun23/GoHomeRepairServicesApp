@@ -7,4 +7,8 @@ public class HomeOwner extends Account{
     public HomeOwner(String name, String email, String password){
         super(name, email, password);
     }
+
+    public String getType(){
+        return "Home Owner";
+    }
 }

@@ -10,4 +10,8 @@ public class Admin extends Account{
         super(name, email, password);
     }
 
+    public String getType(){
+        return "Admin";
+    }
+
 }
