@@ -38,6 +38,7 @@
                 android:text="Account Type" />
 
             <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
@@ -46,21 +47,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="RadioButton" />
+                    android:text="Home Owner"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="RadioButton" />
+                    android:text="Service Provider" />
 
                 <RadioButton
                     android:id="@+id/radioButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="RadioButton" />
+                    android:text="Admin" />
             </RadioGroup>
 
             <TextView

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,13 +31,16 @@ public class RegisterActivity extends AppCompatActivity {
     private String password;
     private String name;
 
+    private RadioGroup radioGroupeAccountType;
+    private RadioButton radioSelectedAccountType;
+
     private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        radioGroupeAccountType = (RadioGroup) findViewById(R.id.radioGroup);
         emailAddressToRegister = findViewById(R.id.emailAddressRegister);
         nameToRegister = findViewById(R.id.nameRegister);
         passwordToRegister = findViewById(R.id.passwordRegister);
@@ -87,7 +92,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
 
-                        User user = new User(name, email,null);
+                        Account user=new Account();
+
+                        int selectedButton= radioGroupeAccountType.getCheckedRadioButtonId();
+                        switch (selectedButton){
+                            case(R.id.radioButton):
+                                user=new HomeOwner(name, email, password);
+                            case(R.id.radioButton2):
+                                user=new ServiceProvider(name, email, password);
+                            case(R.id.radioButton3):
+                                user=new Admin(name, email, password);
+                        }
 
                         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {

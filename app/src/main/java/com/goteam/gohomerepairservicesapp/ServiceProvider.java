@@ -10,4 +10,8 @@ public class ServiceProvider extends Account{
         super(name, email, password);
     }
 
+    public String getType(){
+        return "Service Provider";
+    }
+
 }
