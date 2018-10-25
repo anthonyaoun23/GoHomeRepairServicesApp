@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
     }
 
     @Override

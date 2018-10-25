@@ -49,5 +49,15 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="147dp"
             android:text="Account Type" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/emailView"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="215dp"
+            android:onClick="btnLogoutClicked"
+            android:text="Logout" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +47,12 @@ public class ProfileActivity extends AppCompatActivity {
 //            startActivity(new Intent(this, MainActivity.class));
 //        }
 //    }
+
+    public void btnLogoutClicked(View view){
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
 
     private void loadUserInformation(){
 
