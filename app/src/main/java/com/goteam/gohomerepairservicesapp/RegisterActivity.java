@@ -47,8 +47,6 @@ public class RegisterActivity extends AppCompatActivity {
         password = passwordToRegister.getText().toString().trim();
         name = nameToRegister.getText().toString().trim();
 
-        // name verification
-
         if(email.isEmpty()){
             emailAddressToRegister.setError("Email is required");
             emailAddressToRegister.requestFocus();
@@ -58,6 +56,18 @@ public class RegisterActivity extends AppCompatActivity {
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailAddressToRegister.setError("Please enter a valid email");
             emailAddressToRegister.requestFocus();
+            return false;
+        }
+
+        if(name.isEmpty()){
+            nameToRegister.setError("Name is required");
+            nameToRegister.requestFocus();
+            return false;
+        }
+
+        if(!name.matches( "[a-zA-z]+([ '-][a-zA-Z]+)*" )){
+            nameToRegister.setError("Name must consist of letters.");
+            nameToRegister.requestFocus();
             return false;
         }
 
@@ -75,7 +85,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         return true;
     }
-
 
     public void btnRegisterUserClicked(View view) {
         if(registerSimpleVerification()){
