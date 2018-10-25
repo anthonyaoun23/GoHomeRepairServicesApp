@@ -35,8 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference adminCreatedReference = database.getReference("Admin");
-    private boolean isCreated; //boolean value to determine if an admin account has already been created
-    private boolean canCreate; //boolean value in order to determine if an account class has ben created (in register button method)
 
     private FirebaseAuth firebaseAuth;
 
@@ -85,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (password.length() < 6) {
-            passwordToRegister.setError("Password must have length of 6 or more characters");
+            passwordToRegister.setError("Password must have length of 5 or more characters");
             passwordToRegister.requestFocus();
             return false;
         }
@@ -103,83 +101,81 @@ public class RegisterActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = ProgressDialog.show(RegisterActivity.this, "Processing", "Creating your account...", true);
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        adminCreatedReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                progressDialog.dismiss();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final Boolean isCreated = dataSnapshot.getValue(Boolean.class);
 
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                User user;
+                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
 
-                if (!task.isSuccessful() || firebaseUser == null) {
-                    Log.e(TAG, "Failed to create user", task.getException());
-                    Toast.makeText(RegisterActivity.this, "Failed to create your account. Please try again.", Toast.LENGTH_LONG).show();
-                    return;
-                }
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        User user;
 
-                String uid = firebaseUser.getUid();
-
-                int selectedButton = radioGroupAccountType.getCheckedRadioButtonId(); //get the selected account and switch through the options
-
-                switch (selectedButton) {
-                    case (R.id.radioButton):
-                        user = new Homeowner(uid);
-                        break;
-
-                    case (R.id.radioButton2):
-                        user = new ServiceProvider(uid);
-                        break;
-
-                    case (R.id.radioButton3): //If admin account is selected, check if an admin account has already been created, if so, ask the user to chose an other account type, if not store the boolean value
-                        //in firebase and create the admin account
-
-                        adminCreatedReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                isCreated = dataSnapshot.getValue(boolean.class);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-
-                        if (!isCreated) {
-                            adminCreatedReference.setValue(true);
-                            user = new Admin(uid);
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "An admin account has already been created.", Toast.LENGTH_LONG).show();
+                        if (!task.isSuccessful() || firebaseUser == null) {
+                            Log.e(TAG, "Failed to create user", task.getException());
+                            Toast.makeText(RegisterActivity.this, "Failed to create your account. Please try again.", Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        break;
+                        String uid = firebaseUser.getUid();
 
-                    default:
-                        Log.e(TAG, "Unexpected button ID " + selectedButton);
-                        return;
-                }
+                        int selectedButton = radioGroupAccountType.getCheckedRadioButtonId(); //get the selected account and switch through the options
 
-                // set display name
-                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
-                firebaseUser.updateProfile(profileChangeRequest);
+                        switch (selectedButton) {
+                            case (R.id.radioButton):
+                                user = new Homeowner();
+                                break;
 
-                // save extra user info
-                database.getReference("Users").child(uid).setValue(user)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (!task.isSuccessful()) {
-                                Log.e(TAG, "Failed to save user info", task.getException());
-                                Toast.makeText(RegisterActivity.this, "Failed to create your account. Please try again.", Toast.LENGTH_LONG).show();
+                            case (R.id.radioButton2):
+                                user = new ServiceProvider();
+                                break;
+
+                            case (R.id.radioButton3):
+                                if (isCreated == null || !isCreated) {
+                                    adminCreatedReference.setValue(true);
+                                    user = new Admin();
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "An admin account has already been created.", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+                                break;
+
+                            default:
+                                Log.e(TAG, "Unexpected button ID " + selectedButton);
                                 return;
-                            }
-
-                            Toast.makeText(RegisterActivity.this, "You have successfully registered.", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
                         }
-                    });
+
+                        // set display name
+                        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                        firebaseUser.updateProfile(profileChangeRequest);
+
+                        // save extra user info
+                        database.getReference("Users").child(uid).setValue(user)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()) {
+                                            Log.e(TAG, "Failed to save user info", task.getException());
+                                            Toast.makeText(RegisterActivity.this, "Failed to create your account. Please try again.", Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+
+                                        Toast.makeText(RegisterActivity.this, "You have successfully registered.", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(RegisterActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
             }
         });
     }

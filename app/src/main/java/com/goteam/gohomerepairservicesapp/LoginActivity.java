@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,11 +34,31 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    public void btnLoginUserClicked(View view) {
+        String email = emailToLogin.getText().toString();
+        String password = passwordToLogin.getText().toString();
 
-    public void btnLoginUserClicked(View view){
+        if (email.isEmpty()) {
+            emailToLogin.setError("Email is required");
+            emailToLogin.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailToLogin.setError("Please enter a valid email");
+            emailToLogin.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            passwordToLogin.setError("Password is required");
+            passwordToLogin.requestFocus();
+            return;
+        }
+
         final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this,"Please wait...", "Processing...", true);
 
-        firebaseAuth.signInWithEmailAndPassword(emailToLogin.getText().toString(),passwordToLogin.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressDialog.dismiss();

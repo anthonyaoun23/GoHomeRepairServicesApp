@@ -1,17 +1,17 @@
 package com.goteam.gohomerepairservicesapp;
 
 public abstract class User {
-    protected String uid;
+    protected String role;
 
     @SuppressWarnings("unused") // for Firebase usage
     public User() { }
 
-    public User(String uid) {
-        this.uid = uid;
+    public User(String role) {
+        this.role = role;
     }
 
-    public String getUid() {
-        return uid;
+    public String getRole() {
+        return role;
     }
 
     public abstract String getRoleName();
