@@ -5,4 +5,4 @@ The app addresses homeowner’s needs for on-demand home services. It allows use
 * Anthony Aoun
 * Benoit Lafrance
 * Cedric Brisebois
-* Nicolas Gnyra
+* Nicolas Gnyra (300008835)
