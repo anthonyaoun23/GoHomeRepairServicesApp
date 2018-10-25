@@ -49,8 +49,8 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
 
-        userEmail.setText(firebaseUser.getEmail());
-        userName.setText(firebaseUser.getDisplayName());
+        userEmail.setText("Email address: " + firebaseUser.getEmail());
+        userName.setText("Name: " + firebaseUser.getDisplayName());
 
         DatabaseReference userInfoReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
@@ -86,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
                     return;
                 }
 
-                userAccountType.setText(user.getRoleName());
+                userAccountType.setText("Role: " + user.getRoleName());
             }
 
             @Override
