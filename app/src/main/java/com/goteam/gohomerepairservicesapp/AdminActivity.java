@@ -62,6 +62,7 @@ public class AdminActivity extends AppCompatActivity {
                 EditText rateInput=dialog.findViewById(R.id.rateRegister);
                 String serviceName=serviceInput.getText().toString();
                 Double rate=Double.valueOf(rateInput.getText().toString());
+                System.out.print("test");
 
                 addService(serviceName,rate);
             }
