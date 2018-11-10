@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -34,22 +35,36 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
+    private boolean serviceSimpleVerification(String name, double rate) {
+        if (name.isEmpty()) {
+            Toast.makeText(AdminActivity.this, "Service must have a  valid name. Please try again.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (rate < 0) {
+            Toast.makeText(AdminActivity.this, "Service must have a valid rate. Please try again.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+
 
     private void addService(String name, double rate){
         Service service=new Service(name,rate);
+        if(serviceSimpleVerification(name,rate)){
+            database.getReference("Services").child(service.getServiceName()).setValue(service).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e(TAG, "Failed to save user info", task.getException());
+                        Toast.makeText(AdminActivity.this, "Failed to create new service. Please try again.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
 
-        database.getReference("Services").child(service.getServiceName()).setValue(service).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (!task.isSuccessful()) {
-                    Log.e(TAG, "Failed to save user info", task.getException());
-                    Toast.makeText(AdminActivity.this, "Failed to create new service. Please try again.", Toast.LENGTH_LONG).show();
-                    return;
+                    Toast.makeText(AdminActivity.this, "You have successfully created a new service.", Toast.LENGTH_LONG).show();
                 }
-
-                Toast.makeText(AdminActivity.this, "You have successfully created a new service.", Toast.LENGTH_LONG).show();
-            }
-        });
+            });
+        }
     }
 
 
