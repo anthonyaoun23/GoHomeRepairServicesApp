@@ -1,13 +1,15 @@
 package com.goteam.gohomerepairservicesapp;
 
-public class Admin extends Account{
+public class Admin extends User {
 
+    @SuppressWarnings("unused") // for Firebase usage
+    public Admin() {
+        super("admin");
+    }
 
-
-    public Admin(){}
-
-    public Admin(String name, String email, String password){
-        super(name, email, password, "Admin");
+    @Override
+    public String getRoleName() {
+        return "Admin";
     }
 
 

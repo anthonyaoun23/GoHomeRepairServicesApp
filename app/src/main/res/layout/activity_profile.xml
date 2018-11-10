@@ -1,63 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
     tools:context=".ProfileActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="16dp">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_welcome" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_centerHorizontal="true"
-            android:textSize="20dp"
-            android:textColor="@android:color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome to TeamGo's Home Repair App" />
+    <TextView
+        android:id="@+id/emailView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/email" />
 
-        
-        <TextView
-            android:id="@+id/emailView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:layout_marginStart="-253dp"
-            android:layout_marginTop="33dp"
-            android:layout_toEndOf="@+id/textView"
-            android:text="Email" />
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/name" />
 
-        <TextView
-            android:id="@+id/nameView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/emailView"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="101dp"
-            android:text="Name" />
+    <TextView
+        android:id="@+id/accountTypeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/role" />
 
-        <TextView
-            android:id="@+id/accountTypeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/emailView"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="147dp"
-            android:text="Account Type" />
-
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/emailView"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="215dp"
-            android:onClick="btnLogoutClicked"
-            android:text="Logout" />
-    </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="btnLogoutClicked"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/logout" />
+</LinearLayout>
