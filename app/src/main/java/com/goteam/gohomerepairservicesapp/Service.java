@@ -1,9 +1,25 @@
 package com.goteam.gohomerepairservicesapp;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class Service {
 
-    public Service(){}
+    private String name;
+    private double hourlyRate;
 
-    public String getServiceName() {return "Service";}
+    public Service(String name, double hourlyRate){
+        this.hourlyRate=hourlyRate;
+        this.name=name;
+    }
+
+    public void setRate(double rate){
+        hourlyRate=rate;
+    }
+
+    public String getServiceName() {return name;}
+
+    public double getRate() {return hourlyRate;}
 }
+
+
