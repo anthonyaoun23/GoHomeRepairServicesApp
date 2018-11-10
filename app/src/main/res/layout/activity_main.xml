@@ -4,33 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/background">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="515dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="wrap_content"
+
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="341dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="162dp"
+            android:layout_marginTop="26dp"
+            android:text="GoHome RepairServices"
+            android:textColor="#292626"
+            android:textSize="35sp"
+            android:textStyle="bold|italic" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
             android:onClick="btnRegisterClicked"
             android:text="Register" />
 
         <Button
             android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
+            android:layout_width="174dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="265dp"
+            android:layout_marginBottom="74dp"
             android:onClick="btnLoginClicked"
             android:text="Login" />
     </RelativeLayout>
