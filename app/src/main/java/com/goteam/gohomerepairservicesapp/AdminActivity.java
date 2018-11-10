@@ -2,6 +2,7 @@ package com.goteam.gohomerepairservicesapp;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AdminActivity extends AppCompatActivity {
@@ -25,6 +27,11 @@ public class AdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+    }
+    public void btnLogoutClicked(View view) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
     }
 
 

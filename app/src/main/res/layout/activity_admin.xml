@@ -3,19 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".ProfileActivity">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/profile_welcome" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:text="@string/profile_welcome"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/emailView"
@@ -38,23 +38,35 @@
         android:layout_marginTop="10dp"
         android:text="@string/role" />
 
-    <Button
-        android:id="@+id/btnAddService"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:onClick="btnAddServiceClicked"
-        android:layout_gravity="center_horizontal"
-        android:text="addService" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="247dp"
+        tools:listitem="@layout/recycler_view_item" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnAddService"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="btnAddServiceClicked"
+            android:text="addService" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:onClick="btnLogoutClicked"
+            android:layout_weight="1"
+            android:text="@string/logout" />
+    </LinearLayout>
 
 
-
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:onClick="btnLogoutClicked"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/logout" />
 </LinearLayout>
