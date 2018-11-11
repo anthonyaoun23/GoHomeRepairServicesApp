@@ -1,12 +1,13 @@
 package com.goteam.gohomerepairservicesapp;
 
-import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Service {
 
     private String name;
     private double hourlyRate;
+
+    public Service(){} //For firebase
 
     public Service(String name, double hourlyRate){
         this.hourlyRate=hourlyRate;

@@ -12,7 +12,6 @@ import java.util.LinkedList;
 public class Admin extends User  {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private LinkedList<Service> userList;
 
     public Admin() {
         super("admin");
@@ -23,21 +22,6 @@ public class Admin extends User  {
         return "Admin";
     }
     
-    public LinkedList<Service> getServices(){
-        database.getReference("Services").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    userList.add(snapshot.getValue(Service.class));
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-        return userList;
-    }
 }
