@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -17,9 +19,19 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.LinkedList;
 
 public class AdminActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private LinkedList<Service> userList;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     String TAG= "AdminActivity";
@@ -28,6 +40,12 @@ public class AdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter= new ServiceAdapter(getSerivces());
+        userList=new LinkedList<Service>();
     }
     public void btnLogoutClicked(View view) {
         FirebaseAuth.getInstance().signOut();
@@ -97,6 +115,27 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
         inputDialog.show();
+
+    }
+
+    public LinkedList<Service> getSerivces(){
+        database.getReference("Services").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    String serviceName = (String)snapshot.child("serviceName").getValue();
+                    Long serviceRate = (Long) snapshot.child("rate").getValue();
+                    userList.add(new Service(serviceName,serviceRate));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        return userList;
 
     }
 }
