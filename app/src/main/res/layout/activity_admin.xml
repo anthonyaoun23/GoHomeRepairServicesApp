@@ -7,13 +7,6 @@
     android:padding="10dp"
     tools:context=".ProfileActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
-
 
     <TextView
         android:id="@+id/textView"
@@ -30,21 +23,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/email" />
+        android:text="@string/email"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/nameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/name" />
+        android:text="@string/name"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/accountTypeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/role" />
+        android:text="@string/role"
+        android:textColor="@android:color/black"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -65,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="btnAddServiceClicked"
-            android:text="addService" />
+            android:text="addService"
+            android:textColor="@android:color/white"/>
 
         <Button
             android:id="@+id/btnLogout"
@@ -73,7 +71,8 @@
             android:layout_height="wrap_content"
             android:onClick="btnLogoutClicked"
             android:layout_weight="1"
-            android:text="@string/logout" />
+            android:text="@string/logout"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 
 

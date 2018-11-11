@@ -35,7 +35,8 @@
                 android:id="@+id/accountTypeView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Account Type" />
+                android:text="Account Type"
+                android:textColor="@android:color/black"/>
 
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -48,41 +49,47 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Home Owner"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:textColor="@android:color/black"/>
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Service Provider" />
+                    android:text="Service Provider"
+                    android:textColor="@android:color/black"/>
 
                 <RadioButton
                     android:id="@+id/radioButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Admin" />
+                    android:text="Admin"
+                    android:textColor="@android:color/black"/>
             </RadioGroup>
 
             <TextView
                 android:id="@+id/emailAddressView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email Address" />
+                android:text="Email Address"
+                android:textColor="@android:color/black"/>
 
             <EditText
                 android:id="@+id/emailAddressRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textEmailAddress" /> 
+                android:inputType="textEmailAddress"
+                />
 
             <TextView
                 android:id="@+id/nameView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name" />
+                android:text="Name"
+                android:textColor="@android:color/black"/>
 
             <EditText
                 android:id="@+id/nameRegister"
@@ -95,7 +102,8 @@
                 android:id="@+id/passwordView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Password" />
+                android:text="Password"
+                android:textColor="@android:color/black"/>
 
             <EditText
                 android:id="@+id/passwordRegister"
@@ -109,7 +117,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="btnRegisterUserClicked"
-                android:text="Register" />
+                android:text="Register"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
 
     </RelativeLayout>
