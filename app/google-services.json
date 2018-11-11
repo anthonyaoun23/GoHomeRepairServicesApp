@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "876525211772",
+    "firebase_url": "https://gohomerepairservices.firebaseio.com",
+    "project_id": "gohomerepairservices",
+    "storage_bucket": "gohomerepairservices.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876525211772:android:ebf4a1944ea38d70",
+        "android_client_info": {
+          "package_name": "com.goteam.gohomerepairservicesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876525211772-flji57sh2e7rf5sq54vitlcghsgaqqaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmnN5mWcQUGQfKxtf8ifius9duGefseM4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
