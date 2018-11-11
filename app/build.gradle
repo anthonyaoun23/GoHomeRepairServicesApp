@@ -4,11 +4,14 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.goteam.gohomerepairservicesapp"
-        minSdkVersion 15
+
         //noinspection OldTargetApi Google services currently use API 26
         targetSdkVersion 26
+        minSdkVersion 15
+
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -35,8 +38,6 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
-    apply plugin:'com.google.gms.google-services'
-
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -23,7 +23,7 @@ public class Admin extends User  {
         return "Admin";
     }
     
-    public LinkedList<Service> getSerivces(){
+    public LinkedList<Service> getServices(){
         database.getReference("Services").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -39,7 +39,5 @@ public class Admin extends User  {
         });
 
         return userList;
-
     }
-
 }

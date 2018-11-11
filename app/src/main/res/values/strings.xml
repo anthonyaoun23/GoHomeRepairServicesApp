@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">GoHomeRepairServicesApp</string>
-    <string name="profile_welcome">Welcome to TeamGo\'s Home Repair App</string>
+    <string name="profile_welcome">Welcome, %s!</string>
+    <string name="user_email_address">Email address: %s</string>
     <string name="email">Email</string>
     <string name="name">Name</string>
     <string name="role">Role</string>
