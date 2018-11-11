@@ -10,8 +10,7 @@ public class BasicUnitTest {
 
     @Test
     public void checkAdminRole(){
-
-        User admin = new Admin();
+        Admin admin = new Admin();
         assertEquals("Check the role of the admin", "Admin", admin.getRoleName());
     }
 
