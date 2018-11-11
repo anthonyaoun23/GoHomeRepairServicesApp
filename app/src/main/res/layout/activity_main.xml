@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/background">
 
 
     <RelativeLayout
@@ -26,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="26dp"
             android:text="GoHome RepairServices"
-            android:textColor="#292626"
+            android:textColor="#040404"
             android:textSize="35sp"
             android:textStyle="bold|italic" />
 
