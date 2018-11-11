@@ -22,21 +22,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/email" />
+        android:text="@string/email"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/nameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/name" />
+        android:text="@string/name"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/accountTypeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/role" />
+        android:text="@string/role"
+        android:textColor="@android:color/black"/>
 
     <Button
         android:id="@+id/btnLogout"
@@ -45,5 +48,6 @@
         android:layout_marginTop="10dp"
         android:onClick="btnLogoutClicked"
         android:layout_gravity="center_horizontal"
-        android:text="@string/logout" />
+        android:text="@string/logout"
+        android:textColor="@android:color/white"/>
 </LinearLayout>

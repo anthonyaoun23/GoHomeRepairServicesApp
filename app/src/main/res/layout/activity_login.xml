@@ -26,8 +26,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -35,7 +33,8 @@
                 android:id="@+id/emailAddressView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email Address" />
+                android:text="Email Address"
+                android:textColor="#000" />
 
             <EditText
                 android:id="@+id/emailAddressLogin"
@@ -48,7 +47,8 @@
                 android:id="@+id/passwordView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Password" />
+                android:text="Password"
+                android:textColor="#000" />
 
             <EditText
                 android:id="@+id/passwordLogin"
@@ -62,7 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="btnLoginUserClicked"
-                android:text="Login" />
+                android:text="Login"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
 
     </RelativeLayout>
