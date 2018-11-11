@@ -7,6 +7,14 @@
     android:padding="10dp"
     tools:context=".ProfileActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
