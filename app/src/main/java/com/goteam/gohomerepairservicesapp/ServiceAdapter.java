@@ -27,11 +27,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     }
 
     public void setOnCardClick(OnItemClickListener listener) {
+
         cardClickListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView service_name;
+        public TextView rate_value;
         public ImageView deleteService;
 
         public ViewHolder(final View itemView, final OnItemClickListener listener) {
@@ -39,6 +41,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
             service_name = itemView.findViewById(R.id.service_name);
             deleteService = itemView.findViewById(R.id.service_delete);
+            rate_value = itemView.findViewById(R.id.rateValue);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -46,6 +49,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                            System.out.print(position);
                         }
                     }
                 }
@@ -57,6 +61,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onDeleteClick(position);
+                            System.out.println(position);
+
                         }
                     }
                 }
@@ -64,6 +70,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
 
         }
+    }
+
+    public void deleteService(int position){
+
     }
 
 
@@ -78,6 +88,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Service currentService = list.get(position);
         holder.service_name.setText(currentService.getServiceName());
+        holder.rate_value.setText(currentService.getRate()+"$/hr");
 
     }
 

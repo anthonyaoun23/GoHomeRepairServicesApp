@@ -5,43 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".ProfileActivity">
-
+    tools:context=".AdminActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcomeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:text="@string/profile_welcome"
-        android:textColor="@android:color/black"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/emailView"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/email"
-        android:textColor="@android:color/black"/>
-
-    <TextView
-        android:id="@+id/nameView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/name"
-        android:textColor="@android:color/black"/>
-
-    <TextView
-        android:id="@+id/accountTypeView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/role"
-        android:textColor="@android:color/black"
-        />
+        android:text="@string/email" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -63,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="btnAddServiceClicked"
-            android:text="addService"
+            android:text="Add Service"
             android:textColor="@android:color/white"/>
 
         <Button

@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
 
-    private TextView userEmail, userName, userAccountType;
+    private TextView userEmail, welcomeMessage, userAccountType;
     private FirebaseUser firebaseUser;
 
     @Override
@@ -29,7 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         userEmail = findViewById(R.id.emailView);
-        userName = findViewById(R.id.nameView);
+        welcomeMessage = findViewById(R.id.welcomeMessage);
         userAccountType = findViewById(R.id.accountTypeView);
 
         loadUserInformation();
@@ -49,8 +49,8 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
 
-        userEmail.setText("Email address: " + firebaseUser.getEmail());
-        userName.setText("Name: " + firebaseUser.getDisplayName());
+        welcomeMessage.setText(String.format(getString(R.string.profile_welcome), firebaseUser.getDisplayName()));
+        userEmail.setText(String.format(getString(R.string.user_email_address), firebaseUser.getEmail()));
 
         DatabaseReference userInfoReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
@@ -95,7 +95,4 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }
