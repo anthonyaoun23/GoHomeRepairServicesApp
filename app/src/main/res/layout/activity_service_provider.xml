@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".ServiceProviderActivity">
+
+    <TextView
+        android:id="@+id/welcomeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/emailView"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/email" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile Information"
+        android:textColor="@android:color/white"
+        android:onClick="btnProfileInfoClicked"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="247dp"
+        tools:listitem="@layout/recycler_view_item" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnAddService"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="btnAddServiceClicked"
+            android:text="Add Service"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="btnLogoutClicked"
+            android:text="@string/logout"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+
+</LinearLayout>
