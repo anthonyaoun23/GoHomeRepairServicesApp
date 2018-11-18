@@ -82,10 +82,17 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String loginRole=(String) dataSnapshot.child("role").getValue();
+                        String uid = firebaseAuth.getUid();
 
                         if("admin".equals(loginRole)) {
                             Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+
+                        }else if ("provider".equals(loginRole)){
+                            Intent intent = new Intent(LoginActivity.this, ServiceProviderActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            database.getReference("Users").child(uid).child("account_finalized").setValue(false);
                             startActivity(intent);
                         }else{
                             Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);

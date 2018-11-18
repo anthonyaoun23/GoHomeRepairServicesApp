@@ -36,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference adminCreatedReference = database.getReference("Admin");
 
+
+
     private FirebaseAuth firebaseAuth;
 
     @Override
