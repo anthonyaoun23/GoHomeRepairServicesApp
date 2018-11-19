@@ -90,10 +90,15 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
 
                         }else if ("provider".equals(loginRole)){
-                            Intent intent = new Intent(LoginActivity.this, ServiceProviderActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            database.getReference("Users").child(uid).child("account_finalized").setValue(false);
-                            startActivity(intent);
+                            if(((boolean)dataSnapshot.child("account_finalized").getValue())==false){
+                                Intent intent = new Intent(LoginActivity.this, ServiceProviderInfoActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }else {
+                                Intent intent = new Intent(LoginActivity.this, ServiceProviderActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
                         }else{
                             Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

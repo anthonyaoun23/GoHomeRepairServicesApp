@@ -44,7 +44,7 @@
             android:layout_weight="1"
             android:onClick="btnAddServiceClicked"
             android:text="Add Service"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/black"/>
 
         <Button
             android:id="@+id/btnLogout"
@@ -53,7 +53,7 @@
             android:onClick="btnLogoutClicked"
             android:layout_weight="1"
             android:text="@string/logout"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 
 

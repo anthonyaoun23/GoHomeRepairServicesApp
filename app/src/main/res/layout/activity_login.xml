@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="btnLoginUserClicked"
                 android:text="Login"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/black"/>
         </LinearLayout>
 
     </RelativeLayout>

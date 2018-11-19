@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="btnRegisterUserClicked"
                 android:text="Register"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/black"/>
         </LinearLayout>
 
     </RelativeLayout>

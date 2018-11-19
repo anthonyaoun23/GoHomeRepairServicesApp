@@ -8,7 +8,7 @@
     tools:context=".ProfileActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcomeMessage"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@android:color/black"
@@ -49,5 +49,5 @@
         android:onClick="btnLogoutClicked"
         android:layout_gravity="center_horizontal"
         android:text="@string/logout"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/black"/>
 </LinearLayout>

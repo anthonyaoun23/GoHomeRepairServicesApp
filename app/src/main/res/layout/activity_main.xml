@@ -8,48 +8,55 @@
     android:background="@drawable/background">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="515dp"
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="268dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="GoHome RepairServices"
+        android:textColor="#040404"
+        android:textSize="35sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.017" />
 
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="174dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:onClick="btnRegisterClicked"
+        android:text="Register"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/appName"
-            android:layout_width="268dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="84dp"
-            android:text="GoHome RepairServices"
-            android:textColor="#040404"
-            android:textSize="35sp"
-            android:textStyle="bold|italic" />
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="174dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_toEndOf="@+id/btnRegister"
+        android:layout_toRightOf="@+id/btnRegister"
+        android:onClick="btnLoginClicked"
+        android:text="Login"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="174dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:onClick="btnRegisterClicked"
-            android:text="Register"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="174dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="74dp"
-            android:onClick="btnLoginClicked"
-            android:text="Login"
-            android:textColor="@android:color/white" />
-    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

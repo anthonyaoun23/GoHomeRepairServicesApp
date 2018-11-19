@@ -5,11 +5,13 @@ public class ServiceProvider extends User {
 
     private String address, phoneNumber, companyName, description;
     private boolean licenced;
+    private boolean account_finalized;
 
 
     @SuppressWarnings("unused") // for Firebase usage
     public ServiceProvider() {
         super("provider");
+        account_finalized=false;
 
     }
 
@@ -24,5 +26,6 @@ public class ServiceProvider extends User {
     public String getCompanyName(){return companyName;}
     public String getDescription(){return description;}
     public boolean getLicensed(){return licenced;}
+    public boolean getAccount_finalized(){return account_finalized;}
 
 }
