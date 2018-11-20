@@ -1,11 +1,14 @@
 package com.goteam.gohomerepairservicesapp;
 
 
+import java.util.LinkedList;
+
 public class ServiceProvider extends User {
 
     private String address, phoneNumber, companyName, description;
     private boolean licenced;
     private boolean account_finalized;
+    private LinkedList<Service> services;
 
 
     @SuppressWarnings("unused") // for Firebase usage
@@ -25,6 +28,18 @@ public class ServiceProvider extends User {
         super("provider");
         account_finalized=false;
         this.address = address;
+    }
+
+    public void addService(Service service){
+        services.add(service);
+    }
+
+    public void removeService(Service service){
+        services.remove(service);
+    }
+
+    public LinkedList<Service> getServices(){
+        return services;
     }
 
     @Override
