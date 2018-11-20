@@ -7,7 +7,7 @@
     <string name="role">Role</string>
     <string name="logout">Logout</string>
     <string name="title_activity_provider_info">Settings</string>
-    <string name="Register">Not a memeber? <u>Register here!</u></string>
+    <string name="Register">Not a member? <u>Register here!</u></string>
 
     <!-- Strings related to Settings -->
 

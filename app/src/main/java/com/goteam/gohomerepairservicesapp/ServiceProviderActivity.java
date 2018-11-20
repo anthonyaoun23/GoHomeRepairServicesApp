@@ -25,36 +25,61 @@ import java.util.LinkedList;
 
 public class ServiceProviderActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private RecyclerView availableServices_r;
+    private RecyclerView currentServices_r;
     private ServiceAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private LinkedList<Service> services;
     private TextView welcomeMessage, userEmail;
-    //private FirebaseUser firebaseUser;
+    private ServiceProvider serviceProvider;
+    private FirebaseUser firebaseUser;
 
 
 
-    //final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //String TAG = "ServiceProviderActivity";
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    String TAG = "ServiceProviderActivity";
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_provider);
-        welcomeMessage = findViewById(R.id.welcomeMessage);
-        userEmail = findViewById(R.id.emailView);
-        //loadUserInformation();
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+        setContentView(R.layout.activity_service_provider_new);
+        //Load user
+        firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+        final String uid=firebaseUser.getUid();
+
+        database.getReference().child("User").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                serviceProvider = dataSnapshot.child(uid).getValue(ServiceProvider.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        services = serviceProvider.getServices();
+
+        loadRecyclers();
+
+    }
+
+
+    private void loadRecyclers(){
+
+        availableServices_r = findViewById(R.id.availableServices);
+        availableServices_r.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        services = new LinkedList<>();
-        recyclerView.setLayoutManager(layoutManager);
+        availableServices_r.setLayoutManager(layoutManager);
         adapter = new ServiceAdapter(services);
-        recyclerView.setAdapter(adapter);
-        //setUpList();
-        //loadServices();
+        availableServices_r.setAdapter(adapter);
+
+
+
     }
 
     public void btnLogoutClicked(View view) {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,42 +15,37 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
 
             <android.support.v7.widget.RecyclerView
-                android:layout_width="wrap_content"
+                android:id="@+id/availableServices"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"/>
+                android:layout_marginTop="30dp"
+                tools:listitem="@layout/service_card_sp" />
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="100dp">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/imagebutton"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
+                android:layout_marginTop="50dp">
             </LinearLayout>
 
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/currentServices"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"/>
+                android:layout_marginTop="30dp"
+                tools:listitem="@layout/service_card"/>
         </LinearLayout>
+
 
         <Button
             android:layout_width="wrap_content"

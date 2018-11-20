@@ -27,7 +27,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="247dp"
-        tools:listitem="@layout/recycler_view_item" />
+        tools:listitem="@layout/service_card" />
 
     <LinearLayout
         android:layout_width="match_parent"
