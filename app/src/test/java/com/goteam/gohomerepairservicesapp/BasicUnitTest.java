@@ -8,6 +8,8 @@ import static org.junit.Assert.*;
 
 public class BasicUnitTest {
 
+    // Unit tests for Deliverable 2 (5)
+
     @Test
     public void checkAdminRole(){
 
@@ -38,5 +40,20 @@ public class BasicUnitTest {
         Service aService = new Service("Pool installation", 62.99);
         assertEquals("Check the rate of a service", 62.99, aService.getRate(), 0.01);
     }
+
+    // Tests for Deliverable 3
+
+    @Test
+    public void checkServiceProviderLicense() {
+        ServiceProvider aServiceProvider = new ServiceProvider(false);
+        assertEquals("Check if a service provider is licensed", false, aServiceProvider.getLicensed());
+    }
+
+    @Test
+    public void checkServiceProviderAddress() {
+        ServiceProvider aServiceProvider = new ServiceProvider("411 Keith Cres.");
+        assertEquals("Check if a service provider is licensed", "411 Keith Cres.", aServiceProvider.getAddress());
+    }
+
 
 }

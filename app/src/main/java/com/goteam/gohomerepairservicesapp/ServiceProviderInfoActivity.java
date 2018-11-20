@@ -41,19 +41,20 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
 
     private boolean registerSimpleVerification(String iaddress, String icompany_name, String inumber ) {
         if (iaddress.isEmpty()) {
-           address.setError("Email is required");
+           address.setError("Address is required");
            address.requestFocus();
-            return false;
+           return false;
         }
 
-        if (!Patterns.PHONE.matcher(inumber).matches()) {
-            phone_number.setError("Please enter a valid phone number");
+
+        if (!inumber.matches("^[0-9]{10}$")) {
+            phone_number.setError("Please enter a valid phone number. Only numbers. No dashes.");
             phone_number.requestFocus();
             return false;
         }
 
         if (icompany_name.isEmpty()) {
-            company_name.setError("Name is required");
+            company_name.setError("Company name is required");
             company_name.requestFocus();
             return false;
         }

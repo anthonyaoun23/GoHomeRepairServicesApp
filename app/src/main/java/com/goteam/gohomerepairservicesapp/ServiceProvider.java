@@ -15,6 +15,18 @@ public class ServiceProvider extends User {
 
     }
 
+    public ServiceProvider(boolean licensed) {
+        super("provider");
+        account_finalized=false;
+        this.licenced = false;
+    }
+
+    public ServiceProvider(String address) {
+        super("provider");
+        account_finalized=false;
+        this.address = address;
+    }
+
     @Override
     public String getRoleName() {
         return "Service Provider";
