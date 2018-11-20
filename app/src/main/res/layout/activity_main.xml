@@ -19,7 +19,7 @@
 
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/emailAddressLogin"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
@@ -37,12 +37,12 @@
             android:textCursorDrawable="@null" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/passwordLogin"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="10dp"
-            android:layout_below="@+id/editText2"
+            android:layout_below="@+id/emailAddressLogin"
             android:layout_marginTop="20dp"
             android:background="@drawable/roundedittext"
             android:drawableLeft="@drawable/password"
