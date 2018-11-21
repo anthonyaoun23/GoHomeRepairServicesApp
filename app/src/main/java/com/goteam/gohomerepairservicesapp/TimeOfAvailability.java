@@ -1,10 +1,11 @@
 package com.goteam.gohomerepairservicesapp;
 
 public class TimeOfAvailability {
-
+    private String userId;
     private int year, month, day, hourStart, minuteStart, hourEnd, minuteEnd;
 
-    TimeOfAvailability(int year, int month, int day, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
+    TimeOfAvailability(String userId, int year, int month, int day, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
+        this.userId = userId;
         this.year = year;
         this.month = month;
         this.day = day;
@@ -13,6 +14,10 @@ public class TimeOfAvailability {
         this.minuteStart = minuteStart;
         this.hourEnd = hourEnd;
         this.minuteEnd = minuteEnd;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public int getYear() {
@@ -41,9 +46,5 @@ public class TimeOfAvailability {
 
     public int getMinuteEnd() {
         return minuteEnd;
-    }
-
-    public int[] getArray() {
-        return new int[]{this.year, this.month, this.day, this.hourStart, this.minuteStart, this.hourEnd, this.minuteEnd};
     }
 }

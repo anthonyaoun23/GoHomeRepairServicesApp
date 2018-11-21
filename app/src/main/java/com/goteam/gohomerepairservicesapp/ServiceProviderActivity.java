@@ -91,11 +91,6 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
             }
         });
-
-      //Load avaiable services
-
-
-
     }
 
 
