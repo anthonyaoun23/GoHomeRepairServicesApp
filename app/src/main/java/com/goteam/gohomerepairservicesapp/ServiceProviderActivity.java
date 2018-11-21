@@ -38,6 +38,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
     private ServiceProvider serviceProvider;
     private FirebaseUser firebaseUser;
     private String uid;
+    private TextView companyName;
+    private String companyName_s;
 
 
 
@@ -50,6 +52,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_new);
+        companyName=findViewById(R.id.s_company_name);
+
         //Load user
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
         uid=firebaseUser.getUid();
@@ -59,6 +63,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 serviceProvider= dataSnapshot.child(uid).getValue(ServiceProvider.class);
+                companyName_s=(String)dataSnapshot.child(uid).child("companyName").getValue();
+
 
                 for (DataSnapshot snapshot : dataSnapshot.child(uid).child("services").getChildren()) {
                     String serviceName = (String) snapshot.child("serviceName").getValue();
@@ -66,6 +72,10 @@ public class ServiceProviderActivity extends AppCompatActivity {
                     currentServices.add(new Service(serviceName, serviceRate));
                     currentServiceAdapter.notifyDataSetChanged();
                 }
+
+                loadRecyclers();
+                setupRecyclers();
+                companyName.setText(companyName_s);
 
             }
 
@@ -77,8 +87,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
         });
 
       //Load avaiable services
-        loadRecyclers();
-        setupRecyclers();
+
+
 
     }
 
