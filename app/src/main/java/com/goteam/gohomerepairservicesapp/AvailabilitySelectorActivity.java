@@ -1,20 +1,29 @@
 package com.goteam.gohomerepairservicesapp;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Patterns;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.FormatStyle;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class AvailabilitySelectorActivity extends AppCompatActivity implements
@@ -22,23 +31,24 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
     Button btnDatePicker, btnTimePickerStart, btnTimePickerEnd, submitBtn;
     EditText txtDate, txtTimeStart, txtTimeEnd;
-    private Calendar c, timeStart, timeEnd;
-    private int mYear, mMonth, mDay, mHourStart, mMinuteStart, mHourEnd, mMinuteEnd;
-    private TimeOfAvailability availabilitySelected;
+    private LocalDate date;
+    private LocalTime startTime, endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidThreeTen.init(this); // required for proper functioning of date/time stuff
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_availability_selector);
 
-        btnDatePicker=(Button)findViewById(R.id.btn_date);
-        btnTimePickerStart=(Button)findViewById(R.id.btn_time_start);
-        btnTimePickerEnd=(Button)findViewById(R.id.btn_time_end);
-        txtDate=(EditText)findViewById(R.id.in_date);
-        txtTimeStart=(EditText)findViewById(R.id.in_time_start);
-        txtTimeEnd=(EditText)findViewById(R.id.in_time_end);
+        btnDatePicker = findViewById(R.id.btn_date);
+        btnTimePickerStart = findViewById(R.id.btn_time_start);
+        btnTimePickerEnd = findViewById(R.id.btn_time_end);
+        txtDate = findViewById(R.id.in_date);
+        txtTimeStart = findViewById(R.id.in_time_start);
+        txtTimeEnd = findViewById(R.id.in_time_end);
 
-        submitBtn = (Button)findViewById(R.id.submitBtn);
+        submitBtn = findViewById(R.id.submitBtn);
 
 
         btnDatePicker.setOnClickListener(this);
@@ -46,21 +56,22 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         btnTimePickerEnd.setOnClickListener(this);
         submitBtn.setOnClickListener(this);
 
+        date = LocalDate.now();
+        startTime = LocalTime.now();
+        endTime = LocalTime.now().plusHours(1);
+
     }
 
     @Override
     public void onClick(View v) {
+        final DateTimeFormatter dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+        final DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
 
         if (v == btnDatePicker) {
             txtDate.setError(null);//removes error
             txtDate.clearFocus();    //clear focus from edittext
 
             // Get Current Date
-            c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                     new DatePickerDialog.OnDateSetListener() {
@@ -69,10 +80,11 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
-                            txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            date = LocalDate.of(year, monthOfYear + 1, dayOfMonth);
+                            txtDate.setText(date.format(dateFormat));
 
                         }
-                    }, mYear, mMonth, mDay);
+                    }, date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
 
 
             datePickerDialog.show();
@@ -80,11 +92,6 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
         if (v == btnTimePickerStart) {
 
-            // Get Current Time
-            timeStart = Calendar.getInstance();
-            mHourStart = timeStart.get(Calendar.HOUR_OF_DAY);
-            mMinuteStart = timeStart.get(Calendar.MINUTE);
-
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                     new TimePickerDialog.OnTimeSetListener() {
@@ -93,19 +100,14 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
-                            txtTimeStart.setText(hourOfDay + ":" + minute);
+                            startTime = LocalTime.of(hourOfDay, minute);
+                            txtTimeStart.setText(startTime.format(timeFormat));
                         }
-                    }, mHourStart, mMinuteStart, false);
+                    }, startTime.getHour(), startTime.getMinute(), true);
             timePickerDialog.show();
         }
 
         if (v == btnTimePickerEnd) {
-
-            // Get Current Time
-            timeEnd = Calendar.getInstance();
-            mHourEnd = c.get(Calendar.HOUR_OF_DAY);
-            mMinuteEnd = c.get(Calendar.MINUTE);
-
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                     new TimePickerDialog.OnTimeSetListener() {
@@ -114,44 +116,41 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
-                            txtTimeEnd.setText(hourOfDay + ":" + minute);
+                            endTime = LocalTime.of(hourOfDay, minute);
+                            txtTimeEnd.setText(endTime.format(timeFormat));
                         }
-                    }, mHourEnd, mMinuteEnd, false);
+                    }, endTime.getHour(), endTime.getMinute(), true);
             timePickerDialog.show();
         }
 
-        if(v == submitBtn){
-            if(timeVerification()){
-                availabilitySelected = new TimeOfAvailability(mYear,mMonth,mDay,mHourStart,mMinuteStart,mHourEnd,mMinuteEnd);
+        if (v == submitBtn) {
+            if (timeVerification()) {
+                TimeOfAvailability availabilitySelected = new TimeOfAvailability(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute());
                 Intent intent = new Intent(this, ServiceProviderActivity.class);
-                intent.putExtra("date",availabilitySelected.getArray());
+                intent.putExtra("date", availabilitySelected.getArray());
                 startActivity(intent);
             }
         }
     }
 
-    public boolean timeVerification(){
+    public boolean timeVerification() {
 
         // Get Current Date
-        if(c == null)
+        if (date == null)
             return false;
 
-        Calendar currentDate = Calendar.getInstance();
-        System.out.println(currentDate.before(c));
+        LocalDateTime currentDate = LocalDateTime.now();
 
         // Check if day chosen is in the future (or current)
-        if(currentDate.before(c)){
-            System.out.println(currentDate.compareTo(c)>0);
-            txtDate.setError("Please select a valid date.");
-            txtDate.requestFocus();
+        if (currentDate.isAfter(LocalDateTime.of(date, startTime))) {
+            Toast.makeText(this, "Please select a valid date.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // Check if start time is before the end time
-        if(timeStart == null || timeEnd == null || timeStart.compareTo(timeEnd)>=0){
+        if (startTime == null || endTime == null || startTime.isAfter(endTime)) {
 
-            txtTimeEnd.setError("Please select a valid time.");
-            txtTimeEnd.requestFocus();
+            Toast.makeText(this, "Please select a valid time.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
