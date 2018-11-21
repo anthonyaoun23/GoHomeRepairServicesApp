@@ -2,48 +2,47 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
     app:cardBackgroundColor="@android:color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="6dp"
+    android:backgroundTint="#1a8bbf">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dp">
+        android:layout_height="wrap_content">
 
 
         <TextView
             android:id="@+id/service_name"
-            android:layout_width="116dp"
-            android:layout_height="23dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10sp"
             android:text="Test"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/rateValue"
-            android:layout_width="102dp"
-            android:layout_height="22dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="26dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Test"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10sp"
             android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/service_delete"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="23dp"
-            android:src="@drawable/ic_delete_black_24dp" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@drawable/ic_delete_black_24dp" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

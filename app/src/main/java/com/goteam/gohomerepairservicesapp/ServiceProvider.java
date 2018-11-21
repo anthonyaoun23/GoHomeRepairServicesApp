@@ -1,20 +1,25 @@
 package com.goteam.gohomerepairservicesapp;
 
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ServiceProvider extends User {
 
     private String address, phoneNumber, companyName, description;
     private boolean licenced;
     private boolean account_finalized;
-    private LinkedList<Service> services;
+    private List services;
+    //Service[] returnServices;
 
 
     @SuppressWarnings("unused") // for Firebase usage
     public ServiceProvider() {
         super("provider");
         account_finalized=false;
+        services= new ArrayList<Service>();
+        services.add(new Service("default", 11));
 
     }
 
@@ -38,9 +43,23 @@ public class ServiceProvider extends User {
         services.remove(service);
     }
 
-    public LinkedList<Service> getServices(){
+    public List getServices(){
         return services;
     }
+
+   // public Service[] getServices(){
+     //   Service[] returnServices=new Service[services.size()];
+    //    for(int i=0; i<services.size();i++){
+   //         returnServices[i]=services.get(i);
+   //     }
+ //       return returnServices;
+   // }
+
+   // public void loadServices(){
+  //      for(int i=0; i<returnServices.length;i++){
+   //         services.add(returnServices[i]);
+   //     }
+   // }
 
     @Override
     public String getRoleName() {

@@ -19,20 +19,24 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceProviderActivity extends AppCompatActivity {
 
     private RecyclerView availableServices_r;
     private RecyclerView currentServices_r;
-    private ServiceAdapter adapter;
+    private SpAvailableServiceAdapter availableServiceAdapter;
+    private SpCurrentServiceAdapter currentServiceAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private LinkedList<Service> services;
-    private TextView welcomeMessage, userEmail;
+    private ArrayList<Service> currentServices;
+    private ArrayList<Service> availableServices;
     private ServiceProvider serviceProvider;
     private FirebaseUser firebaseUser;
+    private String uid;
 
 
 
@@ -47,12 +51,17 @@ public class ServiceProviderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service_provider_new);
         //Load user
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
-        final String uid=firebaseUser.getUid();
+        uid=firebaseUser.getUid();
 
         database.getReference().child("User").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 serviceProvider = dataSnapshot.child(uid).getValue(ServiceProvider.class);
+
+                GenericTypeIndicator<List<Service>> gen = new GenericTypeIndicator<List<Service>>() {};
+                List<Service> current = dataSnapshot.child(uid).getValue(gen);
+
+                currentServices= (ArrayList<Service>)current;
             }
 
             @Override
@@ -61,8 +70,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
             }
         });
 
-
-        services = serviceProvider.getServices();
+      //  serviceProvider.loadServices();
 
         loadRecyclers();
 
@@ -70,58 +78,33 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
 
     private void loadRecyclers(){
-
+        availableServices = new ArrayList<Service>();
+        currentServices = new ArrayList<Service>();
+        loadAvailableServices();
         availableServices_r = findViewById(R.id.availableServices);
         availableServices_r.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         availableServices_r.setLayoutManager(layoutManager);
-        adapter = new ServiceAdapter(services);
-        availableServices_r.setAdapter(adapter);
+        availableServiceAdapter = new SpAvailableServiceAdapter(availableServices);
+        availableServices_r.setAdapter(availableServiceAdapter);
 
+        setupRecyclers();
 
 
     }
 
-    public void btnLogoutClicked(View view) {
-        FirebaseAuth.getInstance().signOut();
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
-    }
-/*
-    private void loadUserInformation() {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (firebaseUser == null) {
-            finish();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        }
-
-        welcomeMessage.setText(String.format(getString(R.string.profile_welcome), firebaseUser.getDisplayName()));
-        userEmail.setText(firebaseUser.getEmail());
-    }
-
-*/
-    public void btnProfileInfoClicked(View view) {
-        Intent intent = new Intent(ServiceProviderActivity.this, ProviderInfo.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    public void btnAddServiceClicked(View view) {
-    }
-/*
-    public void loadServices() {
+    public void loadAvailableServices() {
         database.getReference("Services").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String serviceName = (String) snapshot.child("serviceName").getValue();
                     Long serviceRate = (Long) snapshot.child("rate").getValue();
-                    services.add(new Service(serviceName, serviceRate));
-                    adapter.notifyDataSetChanged();
+                    availableServices.add(new Service(serviceName, serviceRate));
+                    availableServiceAdapter.notifyDataSetChanged();
                 }
 
-                adapter.notifyDataSetChanged();
+                availableServiceAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -131,57 +114,22 @@ public class ServiceProviderActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpList() {
-        adapter.setOnCardClick(new ServiceAdapter.OnItemClickListener() {
+    public void setupRecyclers(){
+        availableServiceAdapter.setOnCardClick(new SpAvailableServiceAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(final int position) {
-                final AlertDialog inputDialog = new AlertDialog.Builder(ServiceProviderActivity.this)
-                        .setTitle("Edit Rate").setView(R.layout.editrate)
-                        .setPositiveButton("Done", null)
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        }).create();
-
-                inputDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(final DialogInterface dialogInterface) {
-                        inputDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Dialog dialog = (Dialog) dialogInterface;
-                                EditText rateInput = dialog.findViewById(R.id.rateEdit);
-                                Double rate;
-
-                                try {
-                                    rate = Double.valueOf(rateInput.getText().toString());
-                                } catch (NumberFormatException ex) {
-                                    Toast.makeText(getApplicationContext(), "Please enter a valid rate.", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-
-                                services.get(position).setRate(rate);
-                                database.getReference("Services").child(services.get(position).getServiceName()).child("rate").setValue(rate);
-                                adapter.notifyDataSetChanged();
-                                dialogInterface.dismiss();
-                            }
-                        });
-                    }
-                });
-
-                inputDialog.show();
-            }
-
-            @Override
-            public void onDeleteClick(int position) {
-                database.getReference("Services").child(services.get(position).getServiceName()).removeValue();
-                services.remove(position);
-                adapter.notifyItemRemoved(position);
+            public void onAddClick(int position) {
+                serviceProvider.addService(availableServices.get(position));
+                currentServices.remove(position);
+                currentServiceAdapter.notifyDataSetChanged();
+                availableServiceAdapter.notifyDataSetChanged();
+                database.getReference().child("User").child(uid).setValue(serviceProvider);
             }
         });
     }
-*/
 
+    public void btnLogoutClicked(View view) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
 }

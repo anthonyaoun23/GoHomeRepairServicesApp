@@ -7,22 +7,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
+public class SpAvailableServiceAdapter extends RecyclerView.Adapter<SpAvailableServiceAdapter.ViewHolder> {
 
     private OnItemClickListener cardClickListener;
-    private LinkedList<Service> list;
+    private ArrayList<Service> list;
 
 
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
-
-        void onDeleteClick(int position);
+        void onAddClick(int position);
     }
 
-    public ServiceAdapter(LinkedList<Service> list){
+    public SpAvailableServiceAdapter(ArrayList<Service> list){
         this.list=list;
     }
 
@@ -33,33 +33,25 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView service_name;
-        public TextView rate_value;
-        public ImageView deleteService;
+        public ImageView addService;
 
         public ViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             service_name = itemView.findViewById(R.id.service_name);
-            deleteService = itemView.findViewById(R.id.service_delete);
-            rate_value = itemView.findViewById(R.id.rateValue);
+            addService = itemView.findViewById(R.id.service_add);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
                 }
             });
-            deleteService.setOnClickListener(new View.OnClickListener() {
+            addService.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position);
+                            listener.onAddClick(position);
 
                         }
                     }
@@ -73,17 +65,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_card, parent, false);
-        ViewHolder holder = new ViewHolder(v, cardClickListener);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_card_sp, parent, false);
+        SpAvailableServiceAdapter.ViewHolder holder = new SpAvailableServiceAdapter.ViewHolder(v, cardClickListener);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Service currentService = list.get(position);
-        holder.service_name.setText(currentService.getServiceName());
-        holder.rate_value.setText(currentService.getRate()+"$/hr");
-
     }
 
     @Override

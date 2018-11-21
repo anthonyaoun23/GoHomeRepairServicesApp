@@ -35,7 +35,7 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/service_delete"
+            android:id="@+id/service_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

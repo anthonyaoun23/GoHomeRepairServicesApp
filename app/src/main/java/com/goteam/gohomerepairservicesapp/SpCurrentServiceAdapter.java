@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.LinkedList;
 
-public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
+public class SpCurrentServiceAdapter extends RecyclerView.Adapter<SpCurrentServiceAdapter.ViewHolder> {
 
     private OnItemClickListener cardClickListener;
     private LinkedList<Service> list;
@@ -22,7 +22,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         void onDeleteClick(int position);
     }
 
-    public ServiceAdapter(LinkedList<Service> list){
+    public SpCurrentServiceAdapter(LinkedList<Service> list){
         this.list=list;
     }
 
