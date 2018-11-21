@@ -73,6 +73,7 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
+
         if (v == btnTimePickerStart) {
 
             // Get Current Time
@@ -93,7 +94,6 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
                     }, mHourStart, mMinuteStart, false);
             timePickerDialog.show();
         }
-
 
         if (v == btnTimePickerEnd) {
 
@@ -123,7 +123,6 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
                 intent.putExtra("date",availabilitySelected.getArray());
                 startActivity(intent);
             }
-
         }
     }
 
@@ -145,7 +144,7 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
             txtTimeEnd.requestFocus();
             return false;
         }
-        
+
         return true;
     }
 

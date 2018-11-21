@@ -78,8 +78,6 @@ public class ServiceProviderActivity extends AppCompatActivity {
         adapter = new ServiceAdapter(services);
         availableServices_r.setAdapter(adapter);
 
-
-
     }
 
     public void btnLogoutClicked(View view) {
