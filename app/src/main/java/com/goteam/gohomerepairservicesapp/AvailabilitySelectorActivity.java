@@ -52,6 +52,8 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
     public void onClick(View v) {
 
         if (v == btnDatePicker) {
+            txtDate.setError(null);//removes error
+            txtDate.clearFocus();    //clear focus from edittext
 
             // Get Current Date
             c = Calendar.getInstance();
@@ -71,6 +73,8 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
                         }
                     }, mYear, mMonth, mDay);
+
+
             datePickerDialog.show();
         }
 
@@ -98,7 +102,7 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         if (v == btnTimePickerEnd) {
 
             // Get Current Time
-            timeStart = Calendar.getInstance();
+            timeEnd = Calendar.getInstance();
             mHourEnd = c.get(Calendar.HOUR_OF_DAY);
             mMinuteEnd = c.get(Calendar.MINUTE);
 
@@ -129,17 +133,23 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
     public boolean timeVerification(){
 
         // Get Current Date
+        if(c == null)
+            return false;
+
         Calendar currentDate = Calendar.getInstance();
+        System.out.println(currentDate.before(c));
 
         // Check if day chosen is in the future (or current)
-        if(currentDate.compareTo(c)<0){
+        if(currentDate.before(c)){
+            System.out.println(currentDate.compareTo(c)>0);
             txtDate.setError("Please select a valid date.");
             txtDate.requestFocus();
             return false;
         }
 
         // Check if start time is before the end time
-        if(timeStart.compareTo(timeEnd)>=0){
+        if(timeStart == null || timeEnd == null || timeStart.compareTo(timeEnd)>=0){
+
             txtTimeEnd.setError("Please select a valid time.");
             txtTimeEnd.requestFocus();
             return false;
