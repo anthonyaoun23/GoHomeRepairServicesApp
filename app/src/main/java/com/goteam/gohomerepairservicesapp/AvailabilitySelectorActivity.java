@@ -2,8 +2,10 @@ package com.goteam.gohomerepairservicesapp;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,9 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
     Button btnDatePicker, btnTimePickerStart, btnTimePickerEnd, submitBtn;
     EditText txtDate, txtTimeStart, txtTimeEnd;
+    private Calendar c, timeStart, timeEnd;
     private int mYear, mMonth, mDay, mHourStart, mMinuteStart, mHourEnd, mMinuteEnd;
+    private TimeOfAvailability availabilitySelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         if (v == btnDatePicker) {
 
             // Get Current Date
-            final Calendar c = Calendar.getInstance();
+            c = Calendar.getInstance();
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -69,12 +73,13 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
+
         if (v == btnTimePickerStart) {
 
             // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            mHourStart = c.get(Calendar.HOUR_OF_DAY);
-            mMinuteStart = c.get(Calendar.MINUTE);
+            timeStart = Calendar.getInstance();
+            mHourStart = timeStart.get(Calendar.HOUR_OF_DAY);
+            mMinuteStart = timeStart.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
@@ -90,11 +95,10 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
             timePickerDialog.show();
         }
 
-
         if (v == btnTimePickerEnd) {
 
             // Get Current Time
-            final Calendar c = Calendar.getInstance();
+            timeStart = Calendar.getInstance();
             mHourEnd = c.get(Calendar.HOUR_OF_DAY);
             mMinuteEnd = c.get(Calendar.MINUTE);
 
@@ -113,9 +117,35 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         }
 
         if(v == submitBtn){
-
-
+            if(timeVerification()){
+                availabilitySelected = new TimeOfAvailability(mYear,mMonth,mDay,mHourStart,mMinuteStart,mHourEnd,mMinuteEnd);
+                Intent intent = new Intent(this, ServiceProviderActivity.class);
+                intent.putExtra("date",availabilitySelected.getArray());
+                startActivity(intent);
+            }
         }
+    }
+
+    public boolean timeVerification(){
+
+        // Get Current Date
+        Calendar currentDate = Calendar.getInstance();
+
+        // Check if day chosen is in the future (or current)
+        if(currentDate.compareTo(c)<0){
+            txtDate.setError("Please select a valid date.");
+            txtDate.requestFocus();
+            return false;
+        }
+
+        // Check if start time is before the end time
+        if(timeStart.compareTo(timeEnd)>=0){
+            txtTimeEnd.setError("Please select a valid time.");
+            txtTimeEnd.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
 }

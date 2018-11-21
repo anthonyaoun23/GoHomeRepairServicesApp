@@ -88,6 +88,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
         availableServiceAdapter = new SpAvailableServiceAdapter(availableServices);
         availableServices_r.setAdapter(availableServiceAdapter);
 
+
         setupRecyclers();
 
 
