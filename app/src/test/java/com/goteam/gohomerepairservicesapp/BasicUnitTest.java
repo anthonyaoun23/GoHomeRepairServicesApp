@@ -45,14 +45,16 @@ public class BasicUnitTest {
 
     @Test
     public void checkServiceProviderLicense() {
-        ServiceProvider aServiceProvider = new ServiceProvider(false);
-        assertEquals("Check if a service provider is licensed", false, aServiceProvider.getLicensed());
+        ServiceProvider aServiceProvider = new ServiceProvider();
+        aServiceProvider.setLicenced(true);
+        assertTrue("Check if a service provider is licensed", aServiceProvider.getLicensed());
     }
 
     @Test
     public void checkServiceProviderAddress() {
-        ServiceProvider aServiceProvider = new ServiceProvider("411 Keith Cres.");
-        assertEquals("Check if a service provider is licensed", "411 Keith Cres.", aServiceProvider.getAddress());
+        ServiceProvider aServiceProvider = new ServiceProvider();
+        aServiceProvider.setAddress("411 Keith Cres.");
+        assertEquals("Check if a service provider has the correct address", "411 Keith Cres.", aServiceProvider.getAddress());
     }
 
 

@@ -1,12 +1,10 @@
 package com.goteam.gohomerepairservicesapp;
 
-import java.sql.Time;
-
 public class TimeOfAvailability {
 
     private int year, month, day, hourStart, minuteStart, hourEnd, minuteEnd;
 
-    TimeOfAvailability(int year, int month, int day, int hourStart, int minuteStart, int hourEnd, int minuteEnd){
+    TimeOfAvailability(int year, int month, int day, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -45,7 +43,7 @@ public class TimeOfAvailability {
         return minuteEnd;
     }
 
-    public int[] getArray(){
-        return new int[]{this.year,this.month,this.day,this.hourStart,this.minuteStart,this.hourEnd,this.minuteEnd};
+    public int[] getArray() {
+        return new int[]{this.year, this.month, this.day, this.hourStart, this.minuteStart, this.hourEnd, this.minuteEnd};
     }
 }
