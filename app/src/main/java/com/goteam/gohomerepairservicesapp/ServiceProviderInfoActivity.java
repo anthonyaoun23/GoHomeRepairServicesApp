@@ -24,6 +24,7 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
     private EditText company_name;
     private EditText phone_number;
     private CheckBox licensed;
+    private EditText description;
     private Button done_button;
 
     @Override
@@ -36,6 +37,7 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
         phone_number=findViewById(R.id.sp_phone_number);
         licensed=findViewById(R.id.sp_licensed);
         done_button=findViewById(R.id.sp_done_account_info);
+        description=findViewById(R.id.sp_description);
         uid=firebaseUser.getUid();
     }
 
@@ -63,13 +65,22 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
     }
 
     public void btnDoneClicked(View view){
+        ServiceProvider user= new ServiceProvider();
         final String scompany_name= company_name.getText().toString().trim();
         final String snumber=phone_number.getText().toString().trim();
         final String saddress=address.getText().toString().trim();
+        final String sdescription=description.getText().toString().trim();
+
+        user.setAddress(saddress);
+        user.setCompanyName(scompany_name);
+        user.setPhoneNumber(snumber);
+        user.setDescription(sdescription);
+
 
         if(!registerSimpleVerification(saddress,scompany_name,snumber)){
             return;
         }else{
+            database.getReference().child("Users").child(uid).setValue(user);
             database.getReference().child("Users").child(uid).child("account_finalized").setValue(true);
             Intent intent = new Intent(ServiceProviderInfoActivity.this, ServiceProviderActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

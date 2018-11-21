@@ -10,29 +10,34 @@ public class ServiceProvider extends User {
     private String address, phoneNumber, companyName, description;
     private boolean licenced;
     private boolean account_finalized;
-    private List services;
-    //Service[] returnServices;
+    private ArrayList<Service> services;
 
 
-    @SuppressWarnings("unused") // for Firebase usage
     public ServiceProvider() {
         super("provider");
         account_finalized=false;
         services= new ArrayList<Service>();
-        services.add(new Service("default", 11));
 
     }
 
-    public ServiceProvider(boolean licensed) {
-        super("provider");
-        account_finalized=false;
-        this.licenced = false;
+    public void setServices(ArrayList<Service> services) {
+        this.services = services;
     }
 
-    public ServiceProvider(String address) {
-        super("provider");
-        account_finalized=false;
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber=phoneNumber;
+    }
+
+    public void setCompanyName(String companyName){
+        this.companyName=companyName;
+    }
+
+    public void setDescription(String description){
+        this.description=description;
     }
 
     public void addService(Service service){
@@ -43,23 +48,9 @@ public class ServiceProvider extends User {
         services.remove(service);
     }
 
-    public List getServices(){
+    public ArrayList<Service> getServices(){
         return services;
     }
-
-   // public Service[] getServices(){
-     //   Service[] returnServices=new Service[services.size()];
-    //    for(int i=0; i<services.size();i++){
-   //         returnServices[i]=services.get(i);
-   //     }
- //       return returnServices;
-   // }
-
-   // public void loadServices(){
-  //      for(int i=0; i<returnServices.length;i++){
-   //         services.add(returnServices[i]);
-   //     }
-   // }
 
     @Override
     public String getRoleName() {
