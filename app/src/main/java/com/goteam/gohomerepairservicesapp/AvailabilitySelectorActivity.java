@@ -1,6 +1,5 @@
 package com.goteam.gohomerepairservicesapp;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -20,11 +19,6 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 
 public class AvailabilitySelectorActivity extends AppCompatActivity implements
         View.OnClickListener {

@@ -62,6 +62,11 @@ public class ServiceProvider extends User {
     public String getCompanyName(){return companyName;}
     public String getDescription(){return description;}
     public boolean getLicensed(){return licenced;}
+
+    public void setLicenced(boolean licenced) {
+        this.licenced = licenced;
+    }
+
     public boolean getAccount_finalized(){return account_finalized;}
 
 }
