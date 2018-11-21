@@ -56,6 +56,10 @@ public class ServiceProviderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_new);
         companyName=findViewById(R.id.s_company_name);
+        availableServices = new ArrayList<Service>();
+        currentServices = new ArrayList<Service>();
+        loadRecyclers();
+        setupRecyclers();
 
         //Load user
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
@@ -76,8 +80,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
                     currentServiceAdapter.notifyDataSetChanged();
                 }
 
-                loadRecyclers();
-                setupRecyclers();
+
                 companyName.setText(companyName_s);
 
             }
@@ -97,8 +100,6 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
 
     private void loadRecyclers(){
-        availableServices = new ArrayList<Service>();
-        currentServices = new ArrayList<Service>();
         loadAvailableServices();
         availableServices_r = findViewById(R.id.availableServices);
         availableServices_r.setHasFixedSize(true);
