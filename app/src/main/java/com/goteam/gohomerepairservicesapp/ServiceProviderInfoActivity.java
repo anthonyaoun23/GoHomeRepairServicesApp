@@ -63,13 +63,20 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
     }
 
     public void btnDoneClicked(View view){
+        ServiceProvider user= new ServiceProvider();
         final String scompany_name= company_name.getText().toString().trim();
         final String snumber=phone_number.getText().toString().trim();
         final String saddress=address.getText().toString().trim();
 
+        user.setAddress(saddress);
+        user.setCompanyName(scompany_name);
+        user.setPhoneNumber(snumber);
+
+
         if(!registerSimpleVerification(saddress,scompany_name,snumber)){
             return;
         }else{
+            database.getReference().child("Users").child(uid).setValue(user);
             database.getReference().child("Users").child(uid).child("account_finalized").setValue(true);
             Intent intent = new Intent(ServiceProviderInfoActivity.this, ServiceProviderActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

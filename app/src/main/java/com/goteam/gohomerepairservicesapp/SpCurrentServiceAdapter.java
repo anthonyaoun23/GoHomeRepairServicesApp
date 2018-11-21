@@ -7,22 +7,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class SpCurrentServiceAdapter extends RecyclerView.Adapter<SpCurrentServiceAdapter.ViewHolder> {
 
     private OnItemClickListener cardClickListener;
-    private LinkedList<Service> list;
+    private ArrayList<Service> list;
 
 
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
 
         void onDeleteClick(int position);
     }
 
-    public SpCurrentServiceAdapter(LinkedList<Service> list){
+    public SpCurrentServiceAdapter(ArrayList<Service> list){
         this.list=list;
     }
 
@@ -42,17 +42,7 @@ public class SpCurrentServiceAdapter extends RecyclerView.Adapter<SpCurrentServi
             service_name = itemView.findViewById(R.id.service_name);
             deleteService = itemView.findViewById(R.id.service_delete);
             rate_value = itemView.findViewById(R.id.rateValue);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
+
             deleteService.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
