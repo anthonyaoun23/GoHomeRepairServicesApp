@@ -2,6 +2,7 @@ package com.goteam.gohomerepairservicesapp;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +22,7 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
     Button btnDatePicker, btnTimePickerStart, btnTimePickerEnd, submitBtn;
     EditText txtDate, txtTimeStart, txtTimeEnd;
     private int mYear, mMonth, mDay, mHourStart, mMinuteStart, mHourEnd, mMinuteEnd;
+    private TimeOfAvailability availabilitySelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +115,21 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         }
 
         if(v == submitBtn){
-
+            if(timeVerification()){
+                availabilitySelected = new TimeOfAvailability(mYear,mMonth,mDay,mHourStart,mMinuteStart,mHourEnd,mMinuteEnd);
+                Intent intent = new Intent(this, ServiceProviderActivity.class);
+                intent.putExtra("date",availabilitySelected.getArray());
+                startActivity(intent);
+            }
 
         }
+    }
+
+    public boolean timeVerification(){
+
+
+
+        return false;
     }
 
 }
