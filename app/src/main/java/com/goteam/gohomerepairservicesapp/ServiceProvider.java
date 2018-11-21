@@ -17,7 +17,6 @@ public class ServiceProvider extends User {
         super("provider");
         account_finalized=false;
         services= new ArrayList<Service>();
-
     }
 
     public void setServices(ArrayList<Service> services) {
