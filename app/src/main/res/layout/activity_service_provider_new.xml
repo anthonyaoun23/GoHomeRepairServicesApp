@@ -14,24 +14,85 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/button_focused"/>
+
+
+        <TextView
+            android:id="@+id/s_company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="Test"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="71dp"
+            android:layout_marginBottom="70dp"
+            android:src="@drawable/names_sp" />
+
+        <TextView
+            android:id="@+id/text8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="71dp"
+            android:text="Available\nServices"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="71dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="26dp"
+            android:layout_marginBottom="70dp"
+            android:src="@drawable/names_sp" />
+
+        <TextView
+            android:id="@+id/text7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="71dp"
+            android:text="Current\nServices"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true">
+            android:layout_centerHorizontal="true">
 
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/availableServices"
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
+                tools:itemCount="1"
                 tools:listitem="@layout/service_card_sp" />
             <LinearLayout
-                android:layout_width="30dp"
+                android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginTop="50dp">
@@ -40,10 +101,11 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/currentServices"
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
-                tools:listitem="@layout/service_card"/>
+                tools:itemCount="1"
+                tools:listitem="@layout/service_card" />
         </LinearLayout>
 
 
