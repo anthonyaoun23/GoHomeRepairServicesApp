@@ -32,6 +32,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
     private SpAvailableServiceAdapter availableServiceAdapter;
     private SpCurrentServiceAdapter currentServiceAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager layoutManager2;
     private ArrayList<Service> currentServices;
     private ArrayList<Service> availableServices;
     private ServiceProvider serviceProvider;
@@ -52,27 +53,32 @@ public class ServiceProviderActivity extends AppCompatActivity {
         //Load user
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
         uid=firebaseUser.getUid();
-
-        database.getReference().child("User").addListenerForSingleValueEvent(new ValueEventListener() {
+        //Load current services owned by the sp
+        database.getReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                serviceProvider = dataSnapshot.child(uid).getValue(ServiceProvider.class);
 
-                GenericTypeIndicator<List<Service>> gen = new GenericTypeIndicator<List<Service>>() {};
-                List<Service> current = dataSnapshot.child(uid).getValue(gen);
+                serviceProvider= dataSnapshot.child(uid).getValue(ServiceProvider.class);
 
-                currentServices= (ArrayList<Service>)current;
+                for (DataSnapshot snapshot : dataSnapshot.child(uid).child("services").getChildren()) {
+                    String serviceName = (String) snapshot.child("serviceName").getValue();
+                    Long serviceRate = (Long) snapshot.child("rate").getValue();
+                    currentServices.add(new Service(serviceName, serviceRate));
+                    currentServiceAdapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ServiceProviderActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
 
             }
         });
 
-      //  serviceProvider.loadServices();
-
+      //Load avaiable services
         loadRecyclers();
+        setupRecyclers();
 
     }
 
@@ -84,13 +90,17 @@ public class ServiceProviderActivity extends AppCompatActivity {
         availableServices_r = findViewById(R.id.availableServices);
         availableServices_r.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
+        layoutManager2 = new LinearLayoutManager(this);
         availableServices_r.setLayoutManager(layoutManager);
         availableServiceAdapter = new SpAvailableServiceAdapter(availableServices);
         availableServices_r.setAdapter(availableServiceAdapter);
 
 
-        setupRecyclers();
-
+        currentServices_r = findViewById(R.id.currentServices);
+        currentServices_r.setHasFixedSize(true);
+        currentServices_r.setLayoutManager(layoutManager2);
+        currentServiceAdapter = new SpCurrentServiceAdapter(currentServices);
+        currentServices_r.setAdapter(currentServiceAdapter);
 
     }
 
@@ -119,13 +129,27 @@ public class ServiceProviderActivity extends AppCompatActivity {
         availableServiceAdapter.setOnCardClick(new SpAvailableServiceAdapter.OnItemClickListener() {
             @Override
             public void onAddClick(int position) {
-                serviceProvider.addService(availableServices.get(position));
-                currentServices.remove(position);
+                currentServices.add(availableServices.get(position));
+                serviceProvider.setServices(currentServices);
                 currentServiceAdapter.notifyDataSetChanged();
                 availableServiceAdapter.notifyDataSetChanged();
-                database.getReference().child("User").child(uid).setValue(serviceProvider);
+                database.getReference().child("Users").child(uid).setValue(serviceProvider);
             }
         });
+
+        currentServiceAdapter.setOnCardClick(new SpCurrentServiceAdapter.OnItemClickListener() {
+
+            @Override
+            public void onDeleteClick(int position) {
+                currentServices.remove(position);
+                serviceProvider.setServices(currentServices);
+                currentServiceAdapter.notifyDataSetChanged();
+                database.getReference().child("Users").child(uid).setValue(serviceProvider);
+
+            }
+        });
+
+
     }
 
     public void btnLogoutClicked(View view) {

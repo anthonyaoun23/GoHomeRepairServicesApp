@@ -33,6 +33,7 @@ public class SpAvailableServiceAdapter extends RecyclerView.Adapter<SpAvailableS
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView service_name;
+        public TextView rate_value;
         public ImageView addService;
 
         public ViewHolder(final View itemView, final OnItemClickListener listener) {
@@ -40,11 +41,8 @@ public class SpAvailableServiceAdapter extends RecyclerView.Adapter<SpAvailableS
 
             service_name = itemView.findViewById(R.id.service_name);
             addService = itemView.findViewById(R.id.service_add);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
+            rate_value = itemView.findViewById(R.id.rateValue);
+
             addService.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -72,6 +70,9 @@ public class SpAvailableServiceAdapter extends RecyclerView.Adapter<SpAvailableS
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Service currentService = list.get(position);
+        holder.service_name.setText(currentService.getServiceName());
+        holder.rate_value.setText(currentService.getRate()+"$/hr");
     }
 
     @Override
