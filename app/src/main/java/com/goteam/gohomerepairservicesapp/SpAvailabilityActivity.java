@@ -2,6 +2,7 @@ package com.goteam.gohomerepairservicesapp;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class SpAvailabilityActivity extends AppCompatActivity {
         adapter = new AvailabilityAdapter(times);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        setupList();
     }
 
 
@@ -49,7 +51,9 @@ public class SpAvailabilityActivity extends AppCompatActivity {
         adapter.setOnCardClick(new AvailabilityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Edit Availibility here
+                Intent intent = new Intent(SpAvailabilityActivity.this, AvailabilitySelectorActivity.class);
+                times.remove(position);
+                startActivity(intent);
             }
         });
 
