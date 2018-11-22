@@ -42,8 +42,4 @@ public class TimeOfAvailability {
     public int getMinuteEnd() {
         return minuteEnd;
     }
-
-    public int[] getArray() {
-        return new int[]{this.year, this.month, this.day, this.hourStart, this.minuteStart, this.hourEnd, this.minuteEnd};
-    }
 }

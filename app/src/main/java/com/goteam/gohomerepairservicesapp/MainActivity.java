@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void btnRegisterClicked(View view){
+    public void btnRegisterClicked(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
-    public void btnLoginClicked(View view){
+    public void btnLoginClicked(View view) {
         String email = emailToLogin.getText().toString();
         String password = passwordToLogin.getText().toString();
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        final ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this,"Please wait...", "Processing...", true);
+        final ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this, "Please wait...", "Processing...", true);
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 String uid = firebaseAuth.getUid();
 
-                if(!task.isSuccessful() || user == null || uid == null) {
+                if (!task.isSuccessful() || user == null || uid == null) {
                     Log.e(TAG, "Failed to sign in", task.getException());
                     Toast.makeText(MainActivity.this, "Failed to sign in. Please try again.", Toast.LENGTH_LONG).show();
                     return;
@@ -95,25 +95,25 @@ public class MainActivity extends AppCompatActivity {
                 database.getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String loginRole=(String) dataSnapshot.child("role").getValue();
+                        String loginRole = (String) dataSnapshot.child("role").getValue();
                         String uid = firebaseAuth.getUid();
 
-                        if("admin".equals(loginRole)) {
+                        if ("admin".equals(loginRole)) {
                             Intent intent = new Intent(MainActivity.this, AdminActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
 
-                        }else if ("provider".equals(loginRole)){
-                            if(((boolean)dataSnapshot.child("account_finalized").getValue())==false){
+                        } else if ("provider".equals(loginRole)) {
+                            if (((boolean) dataSnapshot.child("account_finalized").getValue()) == false) {
                                 Intent intent = new Intent(MainActivity.this, ServiceProviderInfoActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                            }else {
+                            } else {
                                 Intent intent = new Intent(MainActivity.this, ServiceProviderActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }
-                        }else{
+                        } else {
                             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
