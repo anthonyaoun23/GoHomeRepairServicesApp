@@ -65,8 +65,8 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         TimeOfAvailability currentTime = list.get(position);
-        holder.startTime.setText(currentTime.getHourStart());
-        holder.endTime.setText(currentTime.getHourEnd());
+        holder.startTime.setText(String.format("%d:%d", currentTime.getHourStart(), currentTime.getHourEnd()));
+        holder.endTime.setText(String.format("%d:%d", currentTime.getHourEnd(), currentTime.getMinuteEnd()));
 
     }
 

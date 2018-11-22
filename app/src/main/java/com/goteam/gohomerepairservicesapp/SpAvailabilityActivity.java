@@ -3,6 +3,7 @@ package com.goteam.gohomerepairservicesapp;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -22,19 +29,21 @@ public class SpAvailabilityActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AvailabilityAdapter adapter;
     private ArrayList<TimeOfAvailability> times;
+    private ArrayList<String> ids;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         //temp
-        times=new ArrayList<TimeOfAvailability>();
+        times = new ArrayList<>();
+        ids = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sp_availibility);
         recyclerView = findViewById(R.id.availabilityRecyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        loadAvailibility();
+        loadAvailability();
         adapter = new AvailabilityAdapter(times);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
@@ -42,17 +51,36 @@ public class SpAvailabilityActivity extends AppCompatActivity {
     }
 
 
-    public void loadAvailibility(){
-        //get availilability from firebase and store in "times array"
+    public void loadAvailability() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String uid = auth.getCurrentUser().getUid();
+
+        database.getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.child("availabilities").getChildren()) {
+                    times.add(snapshot.getValue(TimeOfAvailability.class));
+                    ids.add(snapshot.getKey());
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
-    public void setupList(){
+    public void setupList() {
         adapter.setOnCardClick(new AvailabilityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(SpAvailabilityActivity.this, AvailabilitySelectorActivity.class);
-                times.remove(position);
+                intent.putExtra("key", ids.get(position));
                 startActivity(intent);
             }
         });
