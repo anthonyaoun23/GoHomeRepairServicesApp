@@ -172,7 +172,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
-    public void btnAvailibility(View view){
+    public void btnAvailability(View view){
         Intent intent = new Intent(this, AvailabilitySelectorActivity.class);
         startActivity(intent);
     }

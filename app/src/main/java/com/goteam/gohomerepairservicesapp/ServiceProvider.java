@@ -17,8 +17,10 @@ public class ServiceProvider extends User {
 
     public ServiceProvider() {
         super("provider");
+
         account_finalized = false;
         services = new ArrayList<>();
+        availabilities = new HashMap<>();
     }
 
     public void setServices(ArrayList<Service> services) {
@@ -87,4 +89,7 @@ public class ServiceProvider extends User {
         return account_finalized;
     }
 
+    public HashMap<String, TimeOfAvailability> getAvailabilities() {
+        return availabilities;
+    }
 }

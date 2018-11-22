@@ -1,8 +1,27 @@
 package com.goteam.gohomerepairservicesapp;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalTime;
+
 public class TimeOfAvailability {
 
     private int year, month, day, hourStart, minuteStart, hourEnd, minuteEnd;
+
+    TimeOfAvailability() {
+
+    }
+
+    TimeOfAvailability(LocalDate date, LocalTime startTime, LocalTime endTime) {
+        this.year = date.getYear();
+        this.month = date.getMonthValue();
+        this.day = date.getDayOfMonth();
+
+        this.hourStart = startTime.getHour();
+        this.minuteStart = startTime.getMinute();
+
+        this.hourEnd = endTime.getHour();
+        this.minuteEnd = endTime.getMinute();
+    }
 
     TimeOfAvailability(int year, int month, int day, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
         this.year = year;

@@ -123,7 +123,7 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
         if (v == submitBtn) {
             if (timeVerification()) {
-                TimeOfAvailability availabilitySelected = new TimeOfAvailability(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute());
+                TimeOfAvailability availabilitySelected = new TimeOfAvailability(date, startTime, endTime);
 
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users");
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
