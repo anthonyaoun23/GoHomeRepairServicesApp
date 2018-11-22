@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
 
                         } else if ("provider".equals(loginRole)) {
-                            if (!((boolean) dataSnapshot.child("accountFinalized").getValue())) {
+                            if (!((boolean) dataSnapshot.child("account_finalized").getValue())) {
                                 Intent intent = new Intent(MainActivity.this, ServiceProviderInfoActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);

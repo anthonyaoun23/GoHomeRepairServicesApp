@@ -99,6 +99,7 @@
             </LinearLayout>
 
 
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/currentServices"
                 android:layout_width="150dp"
@@ -106,8 +107,20 @@
                 android:layout_marginTop="30dp"
                 tools:itemCount="1"
                 tools:listitem="@layout/service_card" />
+
+
         </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/availability"
+            android:layout_width="450dp"
+            android:layout_height="150dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="96dp"
+            android:layout_toEndOf="@+id/text8"
+            android:layout_toRightOf="@+id/text8"
+            tools:itemCount="1"
+            tools:listitem="@layout/activity_availability_card" />
 
         <Button
             android:id="@+id/btn_avail"
@@ -118,7 +131,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
             android:text="Add AVailabilty"
-            android:onClick="btnAvailibility" />
+            android:onClick="btnAvailability" />
 
         <Button
             android:id="@+id/btnLogout"
@@ -131,5 +144,13 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/logout"
             android:textColor="@android:color/black"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View availability"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="55dp"
+            android:onClick="btnViewAvailibilityClicked"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

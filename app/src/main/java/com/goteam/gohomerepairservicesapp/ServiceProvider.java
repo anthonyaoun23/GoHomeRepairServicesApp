@@ -2,6 +2,7 @@ package com.goteam.gohomerepairservicesapp;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,16 +10,17 @@ public class ServiceProvider extends User {
 
     private String address, phoneNumber, companyName, description;
     private boolean licenced;
-    private boolean accountFinalized;
+    private boolean account_finalized;
     private ArrayList<Service> services;
-    private ArrayList<TimeOfAvailability> availabilities;
+    private HashMap<String, TimeOfAvailability> availabilities;
 
 
     public ServiceProvider() {
         super("provider");
-        accountFinalized = false;
+
+        account_finalized = false;
         services = new ArrayList<>();
-        availabilities = new ArrayList<>();
+        availabilities = new HashMap<>();
     }
 
     public void setServices(ArrayList<Service> services) {
@@ -83,8 +85,11 @@ public class ServiceProvider extends User {
         this.licenced = licenced;
     }
 
-    public boolean getAccountFinalized() {
-        return accountFinalized;
+    public boolean getAccount_finalized() {
+        return account_finalized;
     }
 
+    public HashMap<String, TimeOfAvailability> getAvailabilities() {
+        return availabilities;
+    }
 }

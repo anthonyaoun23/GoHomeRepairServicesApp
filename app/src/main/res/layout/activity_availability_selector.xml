@@ -90,6 +90,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Submit" />
+
+            <Button
+                android:id="@+id/deleteTimeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:onClick="onDeleteButtonClicked"
+                android:text="Delete"
+                android:visibility="gone" />
         </LinearLayout>
 
     </RelativeLayout>

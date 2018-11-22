@@ -3,6 +3,7 @@ package com.goteam.gohomerepairservicesapp;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.LocalDate;
@@ -30,6 +35,10 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
     EditText txtDate, txtTimeStart, txtTimeEnd;
     private LocalDate date;
     private LocalTime startTime, endTime;
+    final DateTimeFormatter dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+    final DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+    DatabaseReference user;
+    String timeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +62,52 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         btnTimePickerEnd.setOnClickListener(this);
         submitBtn.setOnClickListener(this);
 
-        date = LocalDate.now();
-        startTime = LocalTime.now();
-        endTime = LocalTime.now().plusHours(1);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        user = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+
+        Intent intent = getIntent();
+        String key = intent.getStringExtra("key");
+
+        if (key != null) {
+            timeId = key;
+            findViewById(R.id.deleteTimeButton).setVisibility(View.VISIBLE);
+
+            user.child("availabilities").child(key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    TimeOfAvailability availability = dataSnapshot.getValue(TimeOfAvailability.class);
+
+                    if (availability == null)
+                        return;
+
+                    date = LocalDate.of(availability.getYear(), availability.getMonth(), availability.getDay());
+                    startTime = LocalTime.of(availability.getHourStart(), availability.getMinuteStart());
+                    endTime = LocalTime.of(availability.getHourEnd(), availability.getMinuteEnd());
+
+                    txtDate.setText(date.format(dateFormat));
+                    txtTimeStart.setText(startTime.format(timeFormat));
+                    txtTimeEnd.setText(endTime.format(timeFormat));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            date = LocalDate.now();
+            startTime = LocalTime.now();
+            endTime = LocalTime.now().plusHours(1);
+
+            txtDate.setText(date.format(dateFormat));
+            txtTimeStart.setText(startTime.format(timeFormat));
+            txtTimeEnd.setText(endTime.format(timeFormat));
+        }
 
     }
 
     @Override
     public void onClick(View v) {
-        final DateTimeFormatter dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-        final DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
-
         if (v == btnDatePicker) {
             txtDate.setError(null);//removes error
             txtDate.clearFocus();    //clear focus from edittext
@@ -122,13 +166,14 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
         if (v == submitBtn) {
             if (timeVerification()) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                TimeOfAvailability availabilitySelected = new TimeOfAvailability(user.getUid(), date.getYear(), date.getMonthValue(), date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute());
+                TimeOfAvailability availabilitySelected = new TimeOfAvailability(date, startTime, endTime);
 
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                db.getReference("Availabilities").setValue(availabilitySelected);
+                if (timeId != null)
+                    user.child("availabilities").child(timeId).setValue(availabilitySelected);
+                else
+                    user.child("availabilities").push().setValue(availabilitySelected);
 
-                Intent intent = new Intent(this, ServiceProviderActivity.class);
+                Intent intent = new Intent(this, SpAvailabilityActivity.class);
                 startActivity(intent);
             }
         }
@@ -156,6 +201,15 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         }
 
         return true;
+    }
+
+    public void onDeleteButtonClicked(View view) {
+        if (timeId != null) {
+            user.child("availabilities").child(timeId).removeValue();
+
+            Intent intent = new Intent(this, SpAvailabilityActivity.class);
+            startActivity(intent);
+        }
     }
 
 }
