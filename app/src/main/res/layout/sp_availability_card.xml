@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/black"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="#1a8bbf">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/begining_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_centerHorizontal="true"
+            android:text="Test"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-----------------------"
+            android:textColor="@android:color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

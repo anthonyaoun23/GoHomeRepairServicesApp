@@ -116,14 +116,11 @@
             android:layout_width="450dp"
             android:layout_height="150dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="-96dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="97dp"
+            android:layout_marginBottom="96dp"
             android:layout_toEndOf="@+id/text8"
+            android:layout_toRightOf="@+id/text8"
             tools:itemCount="1"
-            tools:listitem="@layout/activity_availability_card"
-            android:layout_marginLeft="-96dp"
-            android:layout_toRightOf="@+id/text8" />
+            tools:listitem="@layout/activity_availability_card" />
 
         <Button
             android:id="@+id/btn_avail"
@@ -147,5 +144,13 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/logout"
             android:textColor="@android:color/black"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View availability"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="55dp"
+            android:onClick="btnViewAvailibilityClicked"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -177,4 +177,10 @@ public class ServiceProviderActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    public void btnViewAvailibilityClicked(View view){
+        Intent intent = new Intent(this, SpAvailabilityActivity.class);
+        startActivity(intent);
+    }
+
 }
