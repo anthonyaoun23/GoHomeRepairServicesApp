@@ -12,6 +12,10 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.LocalDate;
@@ -119,9 +123,18 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
         if (v == submitBtn) {
             if (timeVerification()) {
-                TimeOfAvailability availabilitySelected = new TimeOfAvailability(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute());
+                TimeOfAvailability availabilitySelected = new TimeOfAvailability(date, startTime, endTime);
+
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users");
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (user == null)
+                    return;
+
+                String uid = user.getUid();
+                db.child(uid).child("availabilities").push().setValue(availabilitySelected);
+
                 Intent intent = new Intent(this, ServiceProviderActivity.class);
-                intent.putExtra("date", availabilitySelected.getArray());
                 startActivity(intent);
             }
         }

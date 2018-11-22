@@ -131,7 +131,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
             android:text="Add AVailabilty"
-            android:onClick="btnAvailibility" />
+            android:onClick="btnAvailability" />
 
         <Button
             android:id="@+id/btnLogout"
