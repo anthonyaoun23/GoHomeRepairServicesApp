@@ -70,11 +70,15 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
 
         if (key != null) {
             timeId = key;
+            findViewById(R.id.deleteTimeButton).setVisibility(View.VISIBLE);
 
             user.child("availabilities").child(key).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     TimeOfAvailability availability = dataSnapshot.getValue(TimeOfAvailability.class);
+
+                    if (availability == null)
+                        return;
 
                     date = LocalDate.of(availability.getYear(), availability.getMonth(), availability.getDay());
                     startTime = LocalTime.of(availability.getHourStart(), availability.getMinuteStart());
@@ -197,6 +201,15 @@ public class AvailabilitySelectorActivity extends AppCompatActivity implements
         }
 
         return true;
+    }
+
+    public void onDeleteButtonClicked(View view) {
+        if (timeId != null) {
+            user.child("availabilities").child(timeId).removeValue();
+
+            Intent intent = new Intent(this, SpAvailabilityActivity.class);
+            startActivity(intent);
+        }
     }
 
 }
