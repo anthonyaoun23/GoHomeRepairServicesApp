@@ -6,3 +6,10 @@ The app addresses homeowner’s needs for on-demand home services. It allows use
 * Benoit Lafrance (300015897)
 * Cedric Brisebois (300015373)
 * Nicolas Gnyra (300008835)
+
+#Starts Here
+Build Status
+[![Build
+Status](https://circleci.com/gh/anthonyaoun23/GoHomeRepairServicesApp.png?branch=master)](https://circle
+ci.com/gh/anthonyaoun23/GoHomeRepairServicesApp)
+#Ends Here
