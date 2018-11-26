@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailToLogin;
     private EditText passwordToLogin;
     private FirebaseAuth firebaseAuth;
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private ProgressDialog progressDialog;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         emailToLogin = findViewById(R.id.emailAddressLogin);
         passwordToLogin = findViewById(R.id.passwordLogin);
+
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -43,20 +47,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (firebaseAuth.getCurrentUser() != null) {
-            // TODO User already logged in
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if (user != null) {
+            progressDialog = ProgressDialog.show(MainActivity.this, "Please wait...", "Logging you in...", true);
+            switchToActivity(user.getUid());
         }
     }
 
     public void btnRegisterClicked(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 
     public void btnLoginClicked(View view) {
-        String email = emailToLogin.getText().toString();
-        String password = passwordToLogin.getText().toString();
+        login(emailToLogin.getText().toString(), passwordToLogin.getText().toString());
+    }
 
+    private void login(String email, String password) {
         if (email.isEmpty()) {
             emailToLogin.setError("Email is required");
             emailToLogin.requestFocus();
@@ -75,58 +82,72 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        final ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this, "Please wait...", "Processing...", true);
+        Log.i(TAG, "Signing in");
+
+        progressDialog = ProgressDialog.show(MainActivity.this, "Please wait...", "Logging you in...", true);
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                progressDialog.dismiss();
-
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 String uid = firebaseAuth.getUid();
 
                 if (!task.isSuccessful() || user == null || uid == null) {
-                    Log.e(TAG, "Failed to sign in", task.getException());
-                    Toast.makeText(MainActivity.this, "Failed to sign in. Please try again.", Toast.LENGTH_LONG).show();
+                    Exception ex = task.getException();
+
+                    Log.w(TAG, "Failed to sign in", ex);
+
+                    if (ex instanceof FirebaseAuthInvalidUserException || ex instanceof FirebaseAuthInvalidCredentialsException)
+                        Toast.makeText(MainActivity.this, "Failed to sign in: Invalid credentials.", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(MainActivity.this, "Failed to sign in. Please try again later.", Toast.LENGTH_LONG).show();
+
                     return;
                 }
 
-                //Checking what kind of user is logging in, if an admin, intent is set to the admin activity.
-                database.getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String loginRole = (String) dataSnapshot.child("role").getValue();
-                        String uid = firebaseAuth.getUid();
+                progressDialog.dismiss();
 
-                        if ("admin".equals(loginRole)) {
-                            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-
-                        } else if ("provider".equals(loginRole)) {
-                            if (!((boolean) dataSnapshot.child("account_finalized").getValue())) {
-                                Intent intent = new Intent(MainActivity.this, ServiceProviderInfoActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            } else {
-                                Intent intent = new Intent(MainActivity.this, ServiceProviderActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        } else {
-                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                switchToActivity(uid);
             }
         });
     }
 
+    private void switchToActivity(String uid) {
+        Log.i(TAG, "Fetching user information from database");
+        //Checking what kind of user is logging in, if an admin, intent is set to the admin activity.
+        database.getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String loginRole = (String) dataSnapshot.child("role").getValue();
+
+                if ("admin".equals(loginRole)) {
+                    startActivity(AdminActivity.class);
+                } else if ("provider".equals(loginRole)) {
+                    Boolean accountFinalized = (Boolean) dataSnapshot.child("account_finalized").getValue();
+
+                    if (accountFinalized == null || !accountFinalized)
+                        startActivity(ServiceProviderInfoActivity.class);
+                    else
+                        startActivity(ServiceProviderActivity.class);
+                } else {
+                    startActivity(ProfileActivity.class);
+                }
+
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w(TAG, "Login cancelled");
+                Log.e(TAG, "Database error: " + databaseError.getDetails());
+            }
+        });
+    }
+
+    private void startActivity(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }
