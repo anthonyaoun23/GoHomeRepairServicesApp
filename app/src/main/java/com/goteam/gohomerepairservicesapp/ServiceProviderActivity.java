@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,35 +43,33 @@ public class ServiceProviderActivity extends AppCompatActivity {
     private String uid;
     private TextView companyName;
     private String companyName_s;
-
-
+    private SwipeRefreshLayout refresh;
 
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     String TAG = "ServiceProviderActivity";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_provider_new);
-        companyName=findViewById(R.id.s_company_name);
-        availableServices = new ArrayList<Service>();
-        currentServices = new ArrayList<Service>();
+        setContentView(R.layout.activity_service_provider);
+        companyName = findViewById(R.id.companyNameTextView);
+        availableServices = new ArrayList<>();
+        currentServices = new ArrayList<>();
         loadRecyclers();
         setupRecyclers();
 
         //Load user
-        firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
-        uid=firebaseUser.getUid();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        uid = firebaseUser.getUid();
         //Load current services owned by the sp
         database.getReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                serviceProvider= dataSnapshot.child(uid).getValue(ServiceProvider.class);
-                companyName_s=(String)dataSnapshot.child(uid).child("companyName").getValue();
+                serviceProvider = dataSnapshot.child(uid).getValue(ServiceProvider.class);
+                companyName_s = (String) dataSnapshot.child(uid).child("companyName").getValue();
 
 
                 for (DataSnapshot snapshot : dataSnapshot.child(uid).child("services").getChildren()) {
@@ -94,8 +93,17 @@ public class ServiceProviderActivity extends AppCompatActivity {
     }
 
 
-    private void loadRecyclers(){
-        loadAvailableServices();
+    private void loadRecyclers() {
+        refresh = findViewById(R.id.refreshLayout);
+
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh.setRefreshing(true);
+                loadAvailableServices();
+            }
+        });
+
         availableServices_r = findViewById(R.id.availableServices);
         availableServices_r.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -111,12 +119,15 @@ public class ServiceProviderActivity extends AppCompatActivity {
         currentServiceAdapter = new SpCurrentServiceAdapter(currentServices);
         currentServices_r.setAdapter(currentServiceAdapter);
 
+        loadAvailableServices();
     }
 
     public void loadAvailableServices() {
         database.getReference("Services").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                availableServices.clear();
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String serviceName = (String) snapshot.child("serviceName").getValue();
                     Long serviceRate = (Long) snapshot.child("rate").getValue();
@@ -125,6 +136,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
                 }
 
                 availableServiceAdapter.notifyDataSetChanged();
+                refresh.setRefreshing(false);
             }
 
             @Override
@@ -134,7 +146,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
         });
     }
 
-    public void setupRecyclers(){
+    public void setupRecyclers() {
         availableServiceAdapter.setOnCardClick(new SpAvailableServiceAdapter.OnItemClickListener() {
             @Override
             public void onAddClick(int position) {
@@ -167,13 +179,13 @@ public class ServiceProviderActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
-    public void btnAvailability(View view){
+    public void btnAvailability(View view) {
         Intent intent = new Intent(this, AvailabilitySelectorActivity.class);
         startActivity(intent);
     }
 
 
-    public void btnViewAvailibilityClicked(View view){
+    public void btnViewAvailibilityClicked(View view) {
         Intent intent = new Intent(this, SpAvailabilityActivity.class);
         startActivity(intent);
     }
