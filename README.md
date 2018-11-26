@@ -8,5 +8,4 @@ The app addresses homeowner’s needs for on-demand home services. It allows use
 * Nicolas Gnyra (300008835)
 
 Build Status
-[![Build Status](https://circleci.com/gh/anthonyaoun23/GoHomeRepairServicesApp.png?branch=develop)]
-(https://circleci.com/gh/anthonyaoun23/GoHomeRepairServicesApp)
+[![CircleCI](https://circleci.com/gh/anthonyaoun23/GoHomeRepairServicesApp/tree/master.svg?style=svg&circle-token=b2d9292f728d0cf71ec9a8ea61a53404572777b7)](https://circleci.com/gh/anthonyaoun23/GoHomeRepairServicesApp/tree/master)
