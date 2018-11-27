@@ -41,6 +41,10 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
+    public void searchButtonClicked(View view){
+
+    }
+
     private void loadUserInformation() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -95,4 +99,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

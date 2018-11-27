@@ -42,12 +42,19 @@
         android:textColor="@android:color/black"/>
 
     <Button
+        android:id="@+id/searchBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="searchButtonClicked"
+        android:text="Search For Service Provider" />
+
+    <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:onClick="btnLogoutClicked"
-        android:layout_gravity="center_horizontal"
         android:text="@string/logout"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black" />
 </LinearLayout>

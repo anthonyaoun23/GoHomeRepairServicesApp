@@ -25,7 +25,8 @@
         <activity android:name=".ServiceProviderActivity" />
         <activity android:name=".ServiceProviderInfoActivity" />
         <activity android:name=".AvailabilitySelectorActivity" />
-        <activity android:name=".SpAvailabilityActivity"></activity>
+        <activity android:name=".SpAvailabilityActivity" />
+        <activity android:name=".HomeownerActivity"></activity>
     </application>
 
 </manifest>
