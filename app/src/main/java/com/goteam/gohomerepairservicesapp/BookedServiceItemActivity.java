@@ -22,13 +22,13 @@ public class BookedServiceItemActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView availabilityRecycler;
     private BookedServiceAdapter adapter;
-    AvailabilityAdapter availabilityAdapter;
+    private AvailabilityAdapter availabilityAdapter;
     private ArrayList<Service> services;
     private ArrayList<TimeOfAvailability> availabilities;
 
-    TextView nameOfServiceProvider, numberOfSP;
-    Button addRatingButton;
-    ServiceProvider provider;
+    private TextView nameOfServiceProvider, numberOfSP;
+    private Button addRatingButton;
+    private ServiceProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class BookedServiceItemActivity extends AppCompatActivity {
         availabilityRecycler.setAdapter(availabilityAdapter);
         availabilityRecycler.setHasFixedSize(true);
         availabilityRecycler.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        setListeners();
 
 
 
@@ -81,6 +82,22 @@ public class BookedServiceItemActivity extends AppCompatActivity {
         for(Service service : provider.getServices()){
             services.add(service);
         }
+    }
+
+    private void setListeners() {
+     adapter.setOnCardClick(new BookedServiceAdapter.OnItemClickListener() {
+         @Override
+         public void onItemClick(int position) {
+             onAddClick(position);
+         }
+
+         @Override
+         public void onAddClick(int position) {
+
+         }
+     });
+
+
     }
 
 
