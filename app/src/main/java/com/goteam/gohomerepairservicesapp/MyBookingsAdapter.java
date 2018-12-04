@@ -63,7 +63,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         Booking booking = list.get(position);
         holder.serviceProviderName.setText(booking.getServiceProvider().getCompanyName());
-        holder.bookingTime.setText(String.format("%d:%d-%d:%d", booking.getTimeOfAvailability().getHourStart(),booking.getTimeOfAvailability().getMinuteStart(), booking.getTimeOfAvailability().getHourEnd(), booking.getTimeOfAvailability().getMinuteEnd()));
+        holder.bookingTime.setText(String.format("%d:%d", booking.getDateTime().getHourStart(),booking.getDateTime().getMinuteStart()));
 
     }
 

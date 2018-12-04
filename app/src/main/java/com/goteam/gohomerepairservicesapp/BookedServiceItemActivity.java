@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -58,7 +59,8 @@ public class BookedServiceItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         provider= (ServiceProvider) bundle.getSerializable("Provider");
-        homeowner=(Homeowner)bundle.getSerializable("homeowner");
+        homeowner=(Homeowner)bundle.getSerializable("Homeowner");
+        database=FirebaseDatabase.getInstance();
         nameOfServiceProvider = findViewById(R.id.nameOfServiceProvider);
         numberOfSP = findViewById(R.id.numberOfSP);
         addRatingButton = findViewById(R.id.addARatingbutton);
@@ -154,31 +156,48 @@ public class BookedServiceItemActivity extends AppCompatActivity {
                      }).create();
 
              inputDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                 String bookingName;
+                 int pos;
                  @Override
                  public void onShow(final DialogInterface dialogInterface) {
-                     Dialog dialog = (Dialog) dialogInterface;
+                     final Dialog dialog = (Dialog) dialogInterface;
 
                      RecyclerView recyclerView2 = dialog.findViewById(R.id.booking_recycler);
+                     final EditText editText = dialog.findViewById(R.id.booking_name);
+
                      recyclerView2.setLayoutManager(new LinearLayoutManager(BookedServiceItemActivity.this));
                      AvailabilityAdapter bookAdapt =new AvailabilityAdapter(getAvail());
                      recyclerView2.setAdapter(bookAdapt);
                      bookAdapt.setOnCardClick(new AvailabilityAdapter.OnItemClickListener() {
                          @Override
                          public void onItemClick(int position) {
+                             pos=position;
+                             bookingName = editText.getText().toString().trim();
 
                              new TimePickerDialog(BookedServiceItemActivity.this, new TimePickerDialog.OnTimeSetListener() {
                                  @Override
                                  public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                                     selectedDateTime = LocalDateTime.of(selectedDateTime.toLocalDate(), LocalTime.of(hourOfDay, minute));
+                                     if(timeChecked(getAvail().get(pos), LocalTime.of(hourOfDay, minute))){
+                                         selectedDateTime = LocalDateTime.of(selectedDateTime.toLocalDate(), LocalTime.of(hourOfDay, minute));
+                                     }else{
+                                         Toast.makeText(BookedServiceItemActivity.this, "Please select a valid time!", Toast.LENGTH_LONG).show();
+                                         onItemClick(pos);
+                                     }
                                  }
                              }, selectedDateTime.getHour(), selectedDateTime.getMinute(), true).show();
+
 
                          }
                      });
                      inputDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                          @Override
                          public void onClick(View view) {
-                             //check avail and
+
+                             Booking booking=new Booking(bookingName, provider, new TimeOfAvailability(selectedDateTime));
+                             homeowner.addBooking(booking);
+                             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                             String uid =firebaseUser.getUid();
+                             database.getReference("Users").child(uid).setValue(homeowner);
                              Dialog dialog = (Dialog) dialogInterface;
                              dialogInterface.dismiss();
                          }
@@ -195,21 +214,16 @@ public class BookedServiceItemActivity extends AppCompatActivity {
     }
 
 
-    private void updateDateTime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT);
+    private boolean timeChecked(TimeOfAvailability time, LocalTime selected) {
 
-            for (TimeOfAvailability avail : provider.getAvailabilities().values()) {
-                LocalDateTime start = LocalDateTime.of(avail.getYear(), avail.getMonth(), avail.getDay(), avail.getHourStart(), avail.getMinuteStart());
-                LocalDateTime end = LocalDateTime.of(avail.getYear(), avail.getMonth(), avail.getDay(), avail.getHourEnd(), avail.getMinuteEnd());
+                LocalTime start = LocalTime.of(time.getHourStart(), time.getMinuteStart());
+                LocalTime end = LocalTime.of(time.getHourEnd(), time.getMinuteEnd());
 
-                if (selectedDateTime.isAfter(start) && selectedDateTime.isBefore(end)){
-                    //Add booking to homeOwner
+                if (selected.isAfter(start) && selected.isBefore(end)){
+                    return true;
             }
+            return false;
         }
 
-    }
-
-
-
-
 }
+

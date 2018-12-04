@@ -15,7 +15,17 @@
             android:text="Please select a time for your booking"
             android:textSize="20sp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:textColor="@android:color/black"/>
+
+
+        <EditText
+            android:id="@+id/booking_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Name of Booking"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/booking_recycler"

@@ -238,7 +238,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("homeowner", homeowner);
+                bundle.putSerializable("Homeowner", homeowner);
                 bundle.putSerializable("Provider",  resultServiceProviders.get(position));
                 Intent intent = new Intent(HomeOwnerActivity.this, BookedServiceItemActivity.class);
                 intent.putExtras(bundle);

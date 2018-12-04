@@ -45,9 +45,13 @@ public class ServiceRatingActivity extends AppCompatActivity {
     }
 
     public void startNewIntent(float rating){
+        Bundle bundleGet = getIntent().getExtras();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Provider",bundleGet.getSerializable("Provider") );
+        bundle.putFloat("rating", rating);
+        bundle.putSerializable("Homeowner", bundleGet.getSerializable("Homeowner"));
         Intent intent = new Intent(this, BookedServiceItemActivity.class);
-        intent.putExtra("rating",rating);
-        intent.putExtra("Provider", getIntent().getSerializableExtra("Provider"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

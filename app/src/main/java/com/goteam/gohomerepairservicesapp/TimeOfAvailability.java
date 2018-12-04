@@ -1,6 +1,7 @@
 package com.goteam.gohomerepairservicesapp;
 
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 
 import java.io.Serializable;
@@ -23,6 +24,15 @@ public class TimeOfAvailability implements Serializable {
 
         this.hourEnd = endTime.getHour();
         this.minuteEnd = endTime.getMinute();
+    }
+
+    TimeOfAvailability(LocalDateTime dateTime){
+        this.hourStart=dateTime.getHour();
+        this.minuteStart=dateTime.getMinute();
+        this.month=dateTime.getMonthValue();
+        this.year=dateTime.getYear();
+        this.day=dateTime.getDayOfMonth();
+
     }
 
     TimeOfAvailability(int year, int month, int day, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
