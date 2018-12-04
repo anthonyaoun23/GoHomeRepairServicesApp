@@ -113,6 +113,8 @@ public class BookedServiceItemActivity extends AppCompatActivity {
     public void addRatingButton(View view){
 
         Intent intent = new Intent(BookedServiceItemActivity.this, ServiceRatingActivity.class);
+
+        intent.putExtra("Provider", this.provider);
         startActivity(intent);
     }
 
