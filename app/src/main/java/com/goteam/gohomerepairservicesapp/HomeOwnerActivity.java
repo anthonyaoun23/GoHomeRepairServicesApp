@@ -1,5 +1,7 @@
 package com.goteam.gohomerepairservicesapp;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,14 +12,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 
 import java.util.LinkedList;
 
@@ -27,32 +38,46 @@ public class HomeOwnerActivity extends AppCompatActivity {
     LinkedList<ServiceProvider> resultServiceProviders;
     LinkedList<String> services;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private RadioGroup searchType;
-    private RecyclerView providerRecycler;
     private HO_SPAdapter spRecyclerAdapter;
     private Spinner servicesSpinner;
     private Spinner ratingsSpinner;
+    private Button selectDateButton;
+    private Button selectTimeButton;
+    private TextView timeTextView;
     private ArrayAdapter<String> servicesAdapter;
     private ArrayAdapter<Integer> ratingsAdapter;
+    private LocalDateTime selectedDateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AndroidThreeTen.init(this);
+
+        selectedDateTime = LocalDateTime.now();
+
+        setContentView(R.layout.activity_home_owner);
+
+        RecyclerView providerRecycler = findViewById(R.id.provider_recycler);
+        RadioGroup searchType = findViewById(R.id.searchType);
+        servicesSpinner = findViewById(R.id.servicesSpinner);
+        ratingsSpinner = findViewById(R.id.ratingsSpinner);
+        selectDateButton = findViewById(R.id.selectDateButton);
+        selectTimeButton = findViewById(R.id.selectTimeButton);
+        timeTextView = findViewById(R.id.timeTextView);
+
         serviceProviders = new LinkedList<>();
         resultServiceProviders = new LinkedList<>();
         services = new LinkedList<>();
-        setContentView(R.layout.activity_home_owner);
-        searchType = findViewById(R.id.searchType);
-        providerRecycler = findViewById(R.id.provider_recycler);
-        servicesSpinner = findViewById(R.id.servicesSpinner);
-        ratingsSpinner = findViewById(R.id.ratingsSpinner);
-        providerRecycler.addItemDecoration(new DividerItemDecoration(providerRecycler.getContext(), DividerItemDecoration.VERTICAL));
 
-        //Setting up recyclerView
         spRecyclerAdapter = new HO_SPAdapter(resultServiceProviders);
+
+        providerRecycler.addItemDecoration(new DividerItemDecoration(providerRecycler.getContext(), DividerItemDecoration.VERTICAL));
         providerRecycler.setHasFixedSize(true);
         providerRecycler.setLayoutManager(new LinearLayoutManager(this));
         providerRecycler.setAdapter(spRecyclerAdapter);
+
+        //Setting up recyclerView
 
         servicesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, services);
         servicesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -75,6 +100,32 @@ public class HomeOwnerActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 resultServiceProviders.clear();
+            }
+        });
+
+        selectDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(HomeOwnerActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        selectedDateTime = LocalDateTime.of(LocalDate.of(year, month + 1, dayOfMonth), selectedDateTime.toLocalTime());
+                        updateDateTime();
+                    }
+                }, selectedDateTime.getYear(), selectedDateTime.getMonthValue() - 1, selectedDateTime.getDayOfMonth()).show();
+            }
+        });
+
+        selectTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new TimePickerDialog(HomeOwnerActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                        selectedDateTime = LocalDateTime.of(selectedDateTime.toLocalDate(), LocalTime.of(hourOfDay, minute));
+                        updateDateTime();
+                    }
+                }, selectedDateTime.getHour(), selectedDateTime.getMinute(), true).show();
             }
         });
 
@@ -104,27 +155,42 @@ public class HomeOwnerActivity extends AppCompatActivity {
         searchType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                int selectedPosition;
+                AdapterView.OnItemSelectedListener listener;
 
                 switch (id) {
                     case R.id.radioService:
                         servicesSpinner.setVisibility(View.VISIBLE);
                         ratingsSpinner.setVisibility(View.GONE);
+                        selectDateButton.setVisibility(View.GONE);
+                        selectTimeButton.setVisibility(View.GONE);
+                        timeTextView.setVisibility(View.GONE);
 
-                        servicesSpinner.getOnItemSelectedListener().onItemSelected(null, servicesSpinner.getSelectedView(), servicesSpinner.getSelectedItemPosition(), servicesSpinner.getSelectedItemId());
+                        listener = servicesSpinner.getOnItemSelectedListener();
+
+                        if (listener != null)
+                            listener.onItemSelected(null, servicesSpinner.getSelectedView(), servicesSpinner.getSelectedItemPosition(), servicesSpinner.getSelectedItemId());
+
                         break;
                     case R.id.radioTime:
                         servicesSpinner.setVisibility(View.GONE);
                         ratingsSpinner.setVisibility(View.GONE);
+                        selectDateButton.setVisibility(View.VISIBLE);
+                        selectTimeButton.setVisibility(View.VISIBLE);
+                        timeTextView.setVisibility(View.VISIBLE);
 
-                        ratingsSpinner.getOnItemSelectedListener().onItemSelected(null, ratingsSpinner.getSelectedView(), ratingsSpinner.getSelectedItemPosition(), ratingsSpinner.getSelectedItemId());
                         break;
                     case R.id.radioRating:
                         servicesSpinner.setVisibility(View.GONE);
                         ratingsSpinner.setVisibility(View.VISIBLE);
+                        selectDateButton.setVisibility(View.GONE);
+                        selectTimeButton.setVisibility(View.GONE);
+                        timeTextView.setVisibility(View.GONE);
 
-                        selectedPosition = ratingsSpinner.getSelectedItemPosition();
-                        ratingsSpinner.performItemClick(ratingsSpinner.getChildAt(selectedPosition), selectedPosition, ratingsSpinner.getItemIdAtPosition(selectedPosition));
+                        listener = ratingsSpinner.getOnItemSelectedListener();
+
+                        if (listener != null)
+                            listener.onItemSelected(null, ratingsSpinner.getSelectedView(), ratingsSpinner.getSelectedItemPosition(), ratingsSpinner.getSelectedItemId());
+
                         break;
                 }
             }
@@ -195,6 +261,22 @@ public class HomeOwnerActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         finish();
         startActivity(new Intent(this, MainActivity.class));
+    }
+
+    private void updateDateTime() {
+        resultServiceProviders.clear();
+
+        for (ServiceProvider provider : serviceProviders){
+            for (TimeOfAvailability avail : provider.getAvailabilities().values()) {
+                LocalDateTime start = LocalDateTime.of(avail.getYear(), avail.getMonth(), avail.getDay(), avail.getHourStart(), avail.getMinuteStart());
+                LocalDateTime end = LocalDateTime.of(avail.getYear(), avail.getMonth(), avail.getDay(), avail.getHourEnd(), avail.getMinuteEnd());
+
+                if (selectedDateTime.isAfter(start) && selectedDateTime.isBefore(end))
+                    resultServiceProviders.add(provider);
+            }
+        }
+
+        spRecyclerAdapter.notifyDataSetChanged();
     }
 }
 
