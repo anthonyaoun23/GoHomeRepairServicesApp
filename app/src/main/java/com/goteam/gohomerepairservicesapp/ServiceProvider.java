@@ -14,7 +14,6 @@ public class ServiceProvider extends User implements Serializable {
     private boolean account_finalized;
     private ArrayList<Service> services;
     private HashMap<String, TimeOfAvailability> availabilities;
-    private String name;
     private double rating;
 
 

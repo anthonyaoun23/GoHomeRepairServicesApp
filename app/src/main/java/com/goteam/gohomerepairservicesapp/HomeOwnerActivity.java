@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,7 +33,6 @@ public class HomeOwnerActivity extends AppCompatActivity {
     LinkedList<ServiceProvider> resultServiceProviders;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference = database.getReference("Users");
-    private FirebaseAuth firebaseAuth;
     private RadioGroup searchType;
     private RecyclerView providerRecycler;
     private HO_SPAdapter spRecyclerAdapter;
@@ -46,6 +46,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
         searchText = findViewById(R.id.search_input);
         searchType = findViewById(R.id.searchType);
         providerRecycler = findViewById(R.id.provider_recycler);
+        providerRecycler.addItemDecoration(new DividerItemDecoration(providerRecycler.getContext(), DividerItemDecoration.VERTICAL));
 
         //Setting up recyclerView
         spRecyclerAdapter = new HO_SPAdapter(resultServiceProviders);
