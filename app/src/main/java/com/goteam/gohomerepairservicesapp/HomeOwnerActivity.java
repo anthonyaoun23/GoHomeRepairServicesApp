@@ -27,7 +27,6 @@ public class HomeOwnerActivity extends AppCompatActivity {
     LinkedList<ServiceProvider> resultServiceProviders;
     LinkedList<String> services;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference = database.getReference("Users");
     private RadioGroup searchType;
     private RecyclerView providerRecycler;
     private HO_SPAdapter spRecyclerAdapter;
@@ -79,7 +78,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
             }
         });
 
-        ratingsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new Integer[] {0, 1, 2, 3, 4, 5});
+        ratingsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new Integer[]{0, 1, 2, 3, 4, 5});
         ratingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ratingsSpinner.setAdapter(ratingsAdapter);
         ratingsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -139,9 +138,9 @@ public class HomeOwnerActivity extends AppCompatActivity {
         spRecyclerAdapter.setOnCardClick(new HO_SPAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                  Intent intent=new Intent(HomeOwnerActivity.this, BookedServiceItemActivity.class);
-                  intent.putExtra("Provider", resultServiceProviders.get(position));
-                  startActivity(intent);
+                Intent intent = new Intent(HomeOwnerActivity.this, BookedServiceItemActivity.class);
+                intent.putExtra("Provider", resultServiceProviders.get(position));
+                startActivity(intent);
             }
         });
 
