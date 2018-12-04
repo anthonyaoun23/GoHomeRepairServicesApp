@@ -25,7 +25,9 @@
         <activity android:name=".ServiceProviderActivity" />
         <activity android:name=".ServiceProviderInfoActivity" />
         <activity android:name=".AvailabilitySelectorActivity" />
-        <activity android:name=".SpAvailabilityActivity"></activity>
+        <activity android:name=".SpAvailabilityActivity" />
+        <activity android:name=".BookedServiceItemActivity" />
+        <activity android:name=".ServiceRatingActivity"></activity>
     </application>
 
 </manifest>
