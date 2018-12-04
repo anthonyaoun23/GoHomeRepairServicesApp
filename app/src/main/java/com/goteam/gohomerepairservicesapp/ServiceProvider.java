@@ -13,6 +13,7 @@ public class ServiceProvider extends User {
     private boolean account_finalized;
     private ArrayList<Service> services;
     private HashMap<String, TimeOfAvailability> availabilities;
+    private String name;
 
 
     public ServiceProvider() {
@@ -22,6 +23,7 @@ public class ServiceProvider extends User {
         services = new ArrayList<>();
         availabilities = new HashMap<>();
     }
+
 
     public void setServices(ArrayList<Service> services) {
         this.services = services;

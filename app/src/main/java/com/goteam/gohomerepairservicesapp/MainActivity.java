@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     else
                         startActivity(ServiceProviderActivity.class);
                 } else {
-                    startActivity(ProfileActivity.class);
+                    startActivity(HomeOwnerActivity.class);
                 }
 
                 if (progressDialog != null && progressDialog.isShowing())
