@@ -90,6 +90,11 @@ public class SpAvailabilityActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SpAvailabilityActivity.this, ServiceProviderActivity.class));
+    }
+
     public void addAvailabilityButtonClicked(View view){
         Intent intent = new Intent(SpAvailabilityActivity.this, AvailabilitySelectorActivity.class);
         startActivity(intent);
