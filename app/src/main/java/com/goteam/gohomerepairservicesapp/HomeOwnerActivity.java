@@ -55,7 +55,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
     private RecyclerView providerRecycler;
     private FirebaseUser firebaseUser;
     private String uid;
-    private Homeowner homeOwner;
+    private Homeowner homeowner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
         database.getReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                homeOwner = dataSnapshot.child(uid).getValue(Homeowner.class);
+                homeowner = dataSnapshot.child(uid).getValue(Homeowner.class);
             }
 
             @Override
@@ -237,8 +237,11 @@ public class HomeOwnerActivity extends AppCompatActivity {
         spRecyclerAdapter.setOnCardClick(new HO_SPAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("homeowner", homeowner);
+                bundle.putSerializable("Provider",  resultServiceProviders.get(position));
                 Intent intent = new Intent(HomeOwnerActivity.this, BookedServiceItemActivity.class);
-                intent.putExtra("Provider", resultServiceProviders.get(position));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
