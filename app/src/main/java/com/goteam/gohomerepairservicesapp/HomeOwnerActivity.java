@@ -301,7 +301,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
 
 
     public void btnBookingsClicked(View view) {
-        //startActivity(new Intent(this, MyBookingsActivity.class));
+        startActivity(new Intent(this, MyBookingsActivity.class));
     }
         private void updateDateTime() {
             DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT);

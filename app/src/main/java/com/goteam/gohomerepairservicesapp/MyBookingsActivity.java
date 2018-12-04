@@ -31,6 +31,8 @@ public class MyBookingsActivity extends AppCompatActivity {
     private ArrayList<Booking> bookings;
     private ArrayList<String> ids;
     private Button backToSearchPage;
+    private String uid;
+    private FirebaseAuth auth;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -38,7 +40,8 @@ public class MyBookingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings);
-
+        auth = FirebaseAuth.getInstance();
+        uid = auth.getCurrentUser().getUid();
         bookings = new ArrayList<>();
         ids = new ArrayList<>();
 
@@ -56,9 +59,6 @@ public class MyBookingsActivity extends AppCompatActivity {
     }
 
     public void loadBookings(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String uid = auth.getCurrentUser().getUid();
 
         database.getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -83,7 +83,7 @@ public class MyBookingsActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(int position) {
-                database.getReference("bookings").child(bookings.get(position).getBookingName()).removeValue();
+                database.getReference("Users").child(uid).child("bookings").child(String.valueOf(position)).removeValue();
                 bookings.remove(position);
                 adapter.notifyItemRemoved(position);
             }
