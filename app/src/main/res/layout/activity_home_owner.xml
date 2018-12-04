@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/searchType"
                 android:layout_weight="1"
-                android:text="by type of service" />
+                android:text="by type of service"
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/radioTime"
@@ -43,12 +44,35 @@
                 android:text="by rating" />
         </RadioGroup>
 
+        <LinearLayout
+            android:id="@+id/selectionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/searchType">
+
+            <Spinner
+                android:id="@+id/servicesSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/ratingsSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/provider_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/selectionLayout"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="10dp"
             tools:listitem="@layout/ho_sp_card" />
 
         <Button
@@ -61,14 +85,6 @@
             android:text="LOGOUT"
 
             />
-
-        <Spinner
-            android:id="@+id/servicesSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/searchType"
-            android:layout_marginTop="10dp" />
-
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

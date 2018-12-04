@@ -6,13 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class HomeOwnerActivity extends AppCompatActivity {
@@ -33,7 +30,9 @@ public class HomeOwnerActivity extends AppCompatActivity {
     private RecyclerView providerRecycler;
     private HO_SPAdapter spRecyclerAdapter;
     private Spinner servicesSpinner;
+    private Spinner ratingsSpinner;
     private ArrayAdapter<String> servicesAdapter;
+    private ArrayAdapter<Integer> ratingsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +41,10 @@ public class HomeOwnerActivity extends AppCompatActivity {
         resultServiceProviders = new LinkedList<>();
         services = new LinkedList<>();
         setContentView(R.layout.activity_home_owner);
-        //searchText = findViewById(R.id.search_input);
         searchType = findViewById(R.id.searchType);
         providerRecycler = findViewById(R.id.provider_recycler);
         servicesSpinner = findViewById(R.id.servicesSpinner);
+        ratingsSpinner = findViewById(R.id.ratingsSpinner);
 
         //Setting up recyclerView
         spRecyclerAdapter = new HO_SPAdapter(resultServiceProviders);
@@ -55,6 +54,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
 
         servicesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, services);
         servicesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        servicesSpinner.setAdapter(servicesAdapter);
         servicesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -75,10 +75,61 @@ public class HomeOwnerActivity extends AppCompatActivity {
                 resultServiceProviders.clear();
             }
         });
-        servicesSpinner.setAdapter(servicesAdapter);
+
+        ratingsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new Integer[] {0, 1, 2, 3, 4, 5});
+        ratingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ratingsSpinner.setAdapter(ratingsAdapter);
+        ratingsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                resultServiceProviders.clear();
+                Integer item = ratingsAdapter.getItem(i);
+
+                if (item != null)
+                    for (ServiceProvider provider : serviceProviders)
+                        if (provider.getRating() >= item)
+                            resultServiceProviders.add(provider);
+
+                spRecyclerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                resultServiceProviders.clear();
+            }
+        });
+
+        searchType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int id) {
+                int selectedPosition;
+
+                switch (id) {
+                    case R.id.radioService:
+                        servicesSpinner.setVisibility(View.VISIBLE);
+                        ratingsSpinner.setVisibility(View.GONE);
+
+                        servicesSpinner.getOnItemSelectedListener().onItemSelected(null, servicesSpinner.getSelectedView(), servicesSpinner.getSelectedItemPosition(), servicesSpinner.getSelectedItemId());
+                        break;
+                    case R.id.radioTime:
+                        servicesSpinner.setVisibility(View.GONE);
+                        ratingsSpinner.setVisibility(View.GONE);
+
+                        ratingsSpinner.getOnItemSelectedListener().onItemSelected(null, ratingsSpinner.getSelectedView(), ratingsSpinner.getSelectedItemPosition(), ratingsSpinner.getSelectedItemId());
+                        break;
+                    case R.id.radioRating:
+                        servicesSpinner.setVisibility(View.GONE);
+                        ratingsSpinner.setVisibility(View.VISIBLE);
+
+                        selectedPosition = ratingsSpinner.getSelectedItemPosition();
+                        ratingsSpinner.performItemClick(ratingsSpinner.getChildAt(selectedPosition), selectedPosition, ratingsSpinner.getItemIdAtPosition(selectedPosition));
+                        break;
+                }
+            }
+        });
 
         setListeners();
-        loadServiceProviders();
+        fetchFromDatabase();
     }
 
     private void setListeners() {
@@ -91,7 +142,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
 
     }
 
-    private void loadServiceProviders() {
+    private void fetchFromDatabase() {
         database.getReference("Services").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -99,10 +150,16 @@ public class HomeOwnerActivity extends AppCompatActivity {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Service service = ds.getValue(Service.class);
+
+                    if (service == null)
+                        continue;
+
                     String name = service.getServiceName();
 
-                    if (name != null)
-                        services.add(name);
+                    if (name == null)
+                        continue;
+
+                    services.add(name);
                 }
 
                 servicesAdapter.notifyDataSetChanged();
@@ -128,49 +185,6 @@ public class HomeOwnerActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-    }
-
-    private void searchProvider(String text) {
-        text = text.trim();
-
-        if (text.equals("")) {
-            Toast.makeText(HomeOwnerActivity.this, "Please enter a valid search", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        resultServiceProviders.clear();
-
-        int selectedButton = searchType.getCheckedRadioButtonId();
-
-        switch (selectedButton) {
-            case (R.id.radioService):
-                for (ServiceProvider provider : serviceProviders) {
-                    for (Service service : provider.getServices()) {
-                        if (service.getServiceName() != null && service.getServiceName().toLowerCase().contains(text.toLowerCase())) {
-                            resultServiceProviders.add(provider);
-                        }
-                    }
-                }
-
-                break;
-
-            case (R.id.radioRating):
-                if (!text.matches("[0-5].?[0-9]?")) {
-                    Toast.makeText(HomeOwnerActivity.this, "Please enter a rating between 0.0 and 5.0", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                for (ServiceProvider provider : serviceProviders)
-                    if (provider.getRating() >= Double.valueOf(text))
-                        resultServiceProviders.add(provider);
-
-                break;
-
-            case (R.id.radioTime):
-                //TO IMPLEMENT BY NIC
-        }
-
-        spRecyclerAdapter.notifyDataSetChanged();
     }
 
     public void btnLogoutClicked(View view) {
