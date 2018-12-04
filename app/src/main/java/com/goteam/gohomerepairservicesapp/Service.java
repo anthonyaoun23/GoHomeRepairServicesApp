@@ -1,7 +1,9 @@
 package com.goteam.gohomerepairservicesapp;
 
 
-public class Service {
+import java.io.Serializable;
+
+public class Service implements Serializable {
 
     private String name;
     private double hourlyRate;

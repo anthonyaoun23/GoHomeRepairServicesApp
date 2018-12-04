@@ -33,6 +33,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="119dp"
+            android:layout_marginLeft="119dp"
             android:onClick="addAvailabilityButtonClicked"
             android:text="Add Availability" />
 

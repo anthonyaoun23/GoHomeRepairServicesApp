@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -26,6 +27,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
     LinkedList<ServiceProvider> resultServiceProviders;
     LinkedList<String> services;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference reference = database.getReference("Users");
     private RadioGroup searchType;
     private RecyclerView providerRecycler;
     private HO_SPAdapter spRecyclerAdapter;
@@ -45,6 +47,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
         providerRecycler = findViewById(R.id.provider_recycler);
         servicesSpinner = findViewById(R.id.servicesSpinner);
         ratingsSpinner = findViewById(R.id.ratingsSpinner);
+        providerRecycler.addItemDecoration(new DividerItemDecoration(providerRecycler.getContext(), DividerItemDecoration.VERTICAL));
 
         //Setting up recyclerView
         spRecyclerAdapter = new HO_SPAdapter(resultServiceProviders);
@@ -136,7 +139,9 @@ public class HomeOwnerActivity extends AppCompatActivity {
         spRecyclerAdapter.setOnCardClick(new HO_SPAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //  Intent intent=new Intent(HomeOwnerActivity.this, );
+                  Intent intent=new Intent(HomeOwnerActivity.this, BookedServiceItemActivity.class);
+                  intent.putExtra("Provider", resultServiceProviders.get(position));
+                  startActivity(intent);
             }
         });
 

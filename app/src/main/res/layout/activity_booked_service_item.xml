@@ -53,10 +53,21 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
+
         <Button
             android:id="@+id/addARatingbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add A Rating" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bookedServicesRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            tools:listitem="@layout/sp_availability_card" />
+
+
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
