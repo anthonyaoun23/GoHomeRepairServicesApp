@@ -11,31 +11,20 @@
         android:layout_height="match_parent">
 
 
-        <EditText
-            android:id="@+id/search_input"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:background="@drawable/roundedittext"
-            android:drawableLeft="@drawable/ic_search_black_24dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:hint="search"
-            android:imeOptions="actionSearch"
-            android:inputType="textAutoComplete"/>
-
         <RadioGroup
             android:id="@+id/searchType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="65dp"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true">
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="21dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radioService"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/searchType"
                 android:layout_weight="1"
                 android:text="by type of service" />
 
@@ -58,21 +47,27 @@
             android:id="@+id/provider_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
             android:layout_centerHorizontal="true"
-            tools:listitem="@layout/ho_sp_card"/>
+            android:layout_marginTop="100dp"
+            tools:listitem="@layout/ho_sp_card" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOGOUT"
-            android:onClick="btnLogoutClicked"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
+            android:onClick="btnLogoutClicked"
+            android:text="LOGOUT"
 
             />
 
+        <Spinner
+            android:id="@+id/servicesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchType"
+            android:layout_marginTop="10dp" />
 
 
     </RelativeLayout>
