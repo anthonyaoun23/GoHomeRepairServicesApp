@@ -32,7 +32,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        serviceProviders= new LinkedList<>();
+        serviceProviders = new LinkedList<>();
         setContentView(R.layout.activity_home_owner);
         searchText = findViewById(R.id.search_input);
         setListeners();
@@ -58,12 +58,12 @@ public class HomeOwnerActivity extends AppCompatActivity {
 
     }
 
-    private void loadServiceProviders(){
+    private void loadServiceProviders() {
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot user : dataSnapshot.getChildren()) {
+                for (DataSnapshot user : dataSnapshot.getChildren()) {
                     if ((user.child("role").getValue()).equals("provider")) {
                         serviceProviders.add(user.getValue(ServiceProvider.class));
                     }
@@ -78,25 +78,25 @@ public class HomeOwnerActivity extends AppCompatActivity {
         });
     }
 
-    private void searchProvider(String text){
-        for(ServiceProvider provider : serviceProviders){
-            if(provider.getCompanyName().trim().contains(text.trim())){
+    private void searchProvider(String text) {
+        for (ServiceProvider provider : serviceProviders) {
+            if (provider.getCompanyName().trim().contains(text.trim())) {
                 //Add provider to recycler view
-                System.out.println("FOUND: "+provider);
+                System.out.println("FOUND: " + provider);
             }
         }
     }
 
 
-    private void loadServices(ServiceProvider provider){
+    private void loadServices(ServiceProvider provider) {
     }
 
-    public void btnLogoutClicked(View view){
-            FirebaseAuth.getInstance().signOut();
-            finish();
-            startActivity(new Intent(this, MainActivity.class));
-        }
+    public void btnLogoutClicked(View view) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
     }
+}
 
 
 
