@@ -82,7 +82,8 @@ public class HomeOwnerActivity extends AppCompatActivity {
         for(ServiceProvider provider : serviceProviders){
             if(provider.getCompanyName().trim().contains(text.trim())){
                 //Add provider to recycler view
-                System.out.println("FOUND: "+provider);
+                System.out.println("FOUND: "+provider.getCompanyName());
+                System.out.println(provider.getServices().get(0).getServiceName());
             }
         }
     }
