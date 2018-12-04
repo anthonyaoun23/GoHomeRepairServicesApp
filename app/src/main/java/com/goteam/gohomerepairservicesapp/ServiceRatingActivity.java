@@ -37,15 +37,16 @@ public class ServiceRatingActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 float rating=ratingBar.getRating();
                 Toast.makeText(getApplicationContext(),"Your Selected Ratings  : " + String.valueOf(rating),Toast.LENGTH_LONG).show();
-                startNewIntent();
+                startNewIntent(rating);
 
 
             }
         });
     }
 
-    public void startNewIntent(){
+    public void startNewIntent(float rating){
         Intent intent = new Intent(this, BookedServiceItemActivity.class);
+        intent.putExtra("rating",rating);
         startActivity(intent);
     }
 }

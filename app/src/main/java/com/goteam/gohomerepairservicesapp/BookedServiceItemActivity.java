@@ -26,7 +26,7 @@ public class BookedServiceItemActivity extends AppCompatActivity {
     private ArrayList<Service> services;
     private ArrayList<TimeOfAvailability> availabilities;
 
-    TextView nameOfServiceProvider, numberOfSP;
+    TextView nameOfServiceProvider, numberOfSP, ratingText;
     Button addRatingButton;
     ServiceProvider provider;
 
@@ -42,6 +42,8 @@ public class BookedServiceItemActivity extends AppCompatActivity {
         numberOfSP.setText(provider.getPhoneNumber());
         nameOfServiceProvider.setText(provider.getCompanyName());
 
+        ratingText = findViewById(R.id.ratingText);
+        checkForExtra();
 
         services = new ArrayList<>();
         recyclerView = findViewById(R.id.bookedServicesRV);
@@ -66,6 +68,21 @@ public class BookedServiceItemActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void checkForExtra(){
+        Bundle extras = getIntent().getExtras();
+        float rating;
+
+        if (extras != null) {
+            rating = extras.getFloat("rating");
+            if(this.provider.getRating()!=0){
+                float currentRating = (float) this.provider.getRating();
+                rating = (currentRating+rating)/2;
+            }
+            this.provider.setRating((double)rating);
+        }
+        this.ratingText.setText(ratingText.getText().toString()+" "+provider.getRating());
     }
 
     public ArrayList<TimeOfAvailability> getAvail(){

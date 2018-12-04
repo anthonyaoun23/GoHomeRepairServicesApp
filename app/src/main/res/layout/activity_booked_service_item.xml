@@ -29,9 +29,15 @@
             android:id="@+id/numberOfSP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:paddingBottom="32dp"
+            android:gravity="center"
             android:text="Service Provider Phone Number" />
+
+        <TextView
+            android:id="@+id/ratingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Rating:" />
 
         <TextView
             android:id="@+id/nameOfServiceProvider"
