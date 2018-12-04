@@ -4,13 +4,15 @@ public class Booking {
 
     private ServiceProvider serviceProvider;
     private TimeOfAvailability timeOfAvailability;
+    private String bookingName;
 
     public Booking(){
     }
 
-    public Booking(ServiceProvider serviceProvider, TimeOfAvailability timeOfAvailability){
+    public Booking(String bookingName, ServiceProvider serviceProvider, TimeOfAvailability timeOfAvailability){
         this.serviceProvider = serviceProvider;
         this.timeOfAvailability = timeOfAvailability;
+        this.bookingName = bookingName;
     }
 
     public ServiceProvider getServiceProvider() {
@@ -19,5 +21,9 @@ public class Booking {
 
     public TimeOfAvailability getTimeOfAvailability() {
         return timeOfAvailability;
+    }
+
+    public String getBookingName(){
+        return bookingName;
     }
 }

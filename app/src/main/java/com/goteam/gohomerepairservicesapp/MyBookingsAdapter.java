@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.Vi
     private ArrayList<Booking> list;
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onDeleteClick(int position);
     }
 
     public MyBookingsAdapter(ArrayList<Booking> list){
@@ -28,19 +29,22 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView serviceProviderName;
         public TextView bookingTime;
+        public ImageView deleteBooking;
 
         public ViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             serviceProviderName = itemView.findViewById(R.id.serviceProvider);
             bookingTime = itemView.findViewById(R.id.bookingTime);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            deleteBooking = itemView.findViewById(R.id.booking_delete);
+            deleteBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
+                            listener.onDeleteClick(position);
+
                         }
                     }
                 }
