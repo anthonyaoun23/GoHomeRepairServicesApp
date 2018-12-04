@@ -46,6 +46,7 @@
                 android:gravity="center_horizontal" />
 
             <Button
+                android:background="@drawable/smallbutton"
                 android:id="@+id/btn_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
                 android:inputType="none" />
 
             <Button
+                android:background="@drawable/smallbutton"
                 android:id="@+id/btn_time_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,6 +80,7 @@
                 android:inputType="none" />
 
             <Button
+                android:background="@drawable/smallbutton"
                 android:id="@+id/btn_time_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,6 +88,7 @@
                 android:text="Select Ending Time" />
 
             <Button
+                android:background="@drawable/smallbutton"
                 android:id="@+id/submitBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,6 +96,7 @@
                 android:text="Submit" />
 
             <Button
+                android:background="@drawable/smallbutton"
                 android:id="@+id/deleteTimeButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

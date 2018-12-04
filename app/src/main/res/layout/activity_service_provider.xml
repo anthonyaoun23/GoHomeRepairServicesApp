@@ -80,29 +80,36 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/buttonsLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <Button
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/smallbutton"
                 android:onClick="btnViewAvailibilityClicked"
                 android:text="Edit availability" />
 
             <Button
                 android:id="@+id/btnLogout"
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/smallbutton"
                 android:onClick="btnLogoutClicked"
                 android:text="@string/logout" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

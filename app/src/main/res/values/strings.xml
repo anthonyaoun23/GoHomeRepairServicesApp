@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GoHomeRepairServicesApp</string>
+    <string name="app_name">GoHomeRepairServices</string>
     <string name="profile_welcome">Welcome, %s!</string>
     <string name="user_email_address">Email address: %s</string>
     <string name="email">Email</string>

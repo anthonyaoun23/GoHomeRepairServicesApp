@@ -106,25 +106,29 @@
             tools:listitem="@layout/ho_sp_card" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:background="@drawable/smallbutton"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="30dp"
-            android:onClick="btnLogoutClicked"
-            android:text="LOGOUT"
+            android:onClick="btnBookingsClicked"
+            android:text="MY BOOKINGS"
+            android:padding="12dp"
 
             />
 
         <Button
-            android:layout_width="wrap_content"
+            android:background="@drawable/smallbutton"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="MY BOOKINGS"
-            android:onClick="btnBookingsClicked"
+            android:text="LOGOUT"
+            android:onClick="btnLogoutClicked"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="30dp"
+            android:padding="12dp"
 
             />
 

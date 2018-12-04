@@ -52,6 +52,9 @@ public class BookedServiceItemActivity extends AppCompatActivity {
     private ServiceProvider provider;
     private TextView ratingText;
 
+    private int minuteLocal;
+    private int hourOfDayLocal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,23 +147,28 @@ public class BookedServiceItemActivity extends AppCompatActivity {
          }
 
          @Override
-         public void onAddClick(int position) {
-             final AlertDialog inputDialog = new AlertDialog.Builder(BookedServiceItemActivity.this)
-                     .setTitle("Add Booking").setView(R.layout.addbooking)
-                     .setPositiveButton("Done", null)
-                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialogInterface, int i) {
-                             dialogInterface.cancel();
-                         }
-                     }).create();
+         public void onAddClick(final int position) {
+             final Dialog inputDialog = new Dialog(BookedServiceItemActivity.this);
+             inputDialog.setContentView(R.layout.addbooking);
+             final Button done=inputDialog.findViewById(R.id.done_button);
+             final Button cancel=inputDialog.findViewById(R.id.cancel_button);
+                     inputDialog.setTitle("Add Booking");
+            cancel.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    inputDialog.cancel();
+                }
+            });
+
 
              inputDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                  String bookingName;
                  int pos;
+
                  @Override
                  public void onShow(final DialogInterface dialogInterface) {
                      final Dialog dialog = (Dialog) dialogInterface;
+
 
                      RecyclerView recyclerView2 = dialog.findViewById(R.id.booking_recycler);
                      final EditText editText = dialog.findViewById(R.id.booking_name);
@@ -177,6 +185,8 @@ public class BookedServiceItemActivity extends AppCompatActivity {
                              new TimePickerDialog(BookedServiceItemActivity.this, new TimePickerDialog.OnTimeSetListener() {
                                  @Override
                                  public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                                     hourOfDayLocal=hourOfDay;
+                                     minuteLocal=minute;
                                      if(timeChecked(getAvail().get(pos), LocalTime.of(hourOfDay, minute))){
                                          selectedDateTime = LocalDateTime.of(selectedDateTime.toLocalDate(), LocalTime.of(hourOfDay, minute));
                                      }else{
@@ -189,17 +199,25 @@ public class BookedServiceItemActivity extends AppCompatActivity {
 
                          }
                      });
-                     inputDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    done.setOnClickListener(new Button.OnClickListener() {
                          @Override
                          public void onClick(View view) {
+                             bookingName = editText.getText().toString().trim();
+                             if(bookingName==null||bookingName.isEmpty()){
+                                 editText.setError("You must specify a booking name");
+                                 editText.requestFocus();
+                             }else if(!timeChecked(getAvail().get(pos), LocalTime.of(hourOfDayLocal, minuteLocal))){
+                                 Toast.makeText(BookedServiceItemActivity.this, "Please select a valid time!", Toast.LENGTH_LONG).show();
+                             }else{
 
-                             Booking booking=new Booking(bookingName, provider, new TimeOfAvailability(selectedDateTime));
-                             homeowner.addBooking(booking);
-                             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                             String uid =firebaseUser.getUid();
-                             database.getReference("Users").child(uid).setValue(homeowner);
-                             Dialog dialog = (Dialog) dialogInterface;
-                             dialogInterface.dismiss();
+                                 Booking booking = new Booking(bookingName, provider, new TimeOfAvailability(selectedDateTime), services.get(position), services.get(position).getRate());
+                                 homeowner.addBooking(booking);
+                                 firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                 String uid = firebaseUser.getUid();
+                                 database.getReference("Users").child(uid).setValue(homeowner);
+                                 Dialog dialog = (Dialog) dialogInterface;
+                                 dialogInterface.dismiss();
+                             }
                          }
                      });
                  }
@@ -213,6 +231,10 @@ public class BookedServiceItemActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(BookedServiceItemActivity.this, HomeOwnerActivity.class));
+    }
 
     private boolean timeChecked(TimeOfAvailability time, LocalTime selected) {
 

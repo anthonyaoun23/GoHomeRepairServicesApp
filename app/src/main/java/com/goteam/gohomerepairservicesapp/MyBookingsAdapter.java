@@ -16,6 +16,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.Vi
 
     public interface OnItemClickListener {
         void onDeleteClick(int position);
+        void onItemClick(int position);
     }
 
     public MyBookingsAdapter(ArrayList<Booking> list){
@@ -37,6 +38,20 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.Vi
             serviceProviderName = itemView.findViewById(R.id.serviceProvider);
             bookingTime = itemView.findViewById(R.id.bookingTime);
             deleteBooking = itemView.findViewById(R.id.booking_delete);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+
+                        }
+                    }
+
+                }
+            });
             deleteBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

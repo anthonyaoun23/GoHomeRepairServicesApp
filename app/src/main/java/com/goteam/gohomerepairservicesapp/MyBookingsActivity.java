@@ -1,6 +1,7 @@
 package com.goteam.gohomerepairservicesapp;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +23,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 
 import java.util.ArrayList;
 
@@ -48,7 +54,6 @@ public class MyBookingsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.myBookingsRecyclerView);
         recyclerView.setHasFixedSize(true);
 
-        backToSearchPage = findViewById(R.id.backToSearch);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         loadBookings();
@@ -87,12 +92,43 @@ public class MyBookingsActivity extends AppCompatActivity {
                 bookings.remove(position);
                 adapter.notifyItemRemoved(position);
             }
-        });
+
+            public void onItemClick(final int position) {
+                final AlertDialog inputDialog = new AlertDialog.Builder(MyBookingsActivity.this)
+                        .setTitle("Booking Info").setView(R.layout.bookinginfo)
+                        .setPositiveButton("Done", null).create();
+
+                inputDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    TextView rate;
+                    TextView companyName;
+                    TextView time;
+
+                    @Override
+                    public void onShow(final DialogInterface dialogInterface) {
+                        final Dialog dialog = (Dialog) dialogInterface;
+                        Booking booking= bookings.get(position);
+                        rate = dialog.findViewById(R.id.rate_of);
+                        companyName = dialog.findViewById(R.id.company_name);
+                        time = dialog.findViewById(R.id.time_of);
+                        time.setText(String.format("%d:%d",booking.getDateTime().getHourStart(),booking.getDateTime().getMinuteStart()));
+                        rate.setText(String.format("%s/hr",booking.getRate()));
+                        companyName.setText(booking.getServiceProvider().getCompanyName());
+
+                        inputDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Dialog dialog = (Dialog) dialogInterface;
+                                dialogInterface.dismiss();
+                            }
+                        });
+                    }
+                });
+
+                inputDialog.show();
+
+            }
+            });
 
     }
 
-    public void backToSearchPageClicked(View view){
-        Intent intent = new Intent(MyBookingsActivity.this, HomeOwnerActivity.class);
-        startActivity(intent);
-    }
 }
