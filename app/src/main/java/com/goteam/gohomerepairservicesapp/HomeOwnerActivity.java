@@ -29,6 +29,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.FormatStyle;
 
 import java.util.LinkedList;
 
@@ -47,6 +49,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
     private ArrayAdapter<String> servicesAdapter;
     private ArrayAdapter<Integer> ratingsAdapter;
     private LocalDateTime selectedDateTime;
+    private RadioGroup searchType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_owner);
 
         RecyclerView providerRecycler = findViewById(R.id.provider_recycler);
-        RadioGroup searchType = findViewById(R.id.searchType);
+        searchType = findViewById(R.id.searchType);
         servicesSpinner = findViewById(R.id.servicesSpinner);
         ratingsSpinner = findViewById(R.id.ratingsSpinner);
         selectDateButton = findViewById(R.id.selectDateButton);
@@ -198,6 +201,7 @@ public class HomeOwnerActivity extends AppCompatActivity {
 
         setListeners();
         fetchFromDatabase();
+        updateDateTime();
     }
 
     private void setListeners() {
@@ -264,6 +268,12 @@ public class HomeOwnerActivity extends AppCompatActivity {
     }
 
     private void updateDateTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT);
+        timeTextView.setText(selectedDateTime.format(dtf));
+
+        if (searchType.getCheckedRadioButtonId() != R.id.radioTime)
+            return;
+
         resultServiceProviders.clear();
 
         for (ServiceProvider provider : serviceProviders){
