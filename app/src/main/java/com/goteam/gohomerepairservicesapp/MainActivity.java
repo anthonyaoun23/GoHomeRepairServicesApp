@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
                     else
                         Toast.makeText(MainActivity.this, "Failed to sign in. Please try again later.", Toast.LENGTH_LONG).show();
 
+                    progressDialog.dismiss();
+
                     return;
                 }
-
-                progressDialog.dismiss();
 
                 switchToActivity(uid);
             }
@@ -129,8 +129,10 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(ServiceProviderInfoActivity.class);
                     else
                         startActivity(ServiceProviderActivity.class);
-                } else {
+                } else if ("homeowner".equals(loginRole)) {
                     startActivity(HomeOwnerActivity.class);
+                } else {
+                    Toast.makeText(MainActivity.this, "Unknown account type", Toast.LENGTH_SHORT).show();
                 }
 
                 if (progressDialog != null && progressDialog.isShowing())
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "Login cancelled");
                 Log.e(TAG, "Database error: " + databaseError.getDetails());
+                progressDialog.dismiss();
             }
         });
     }
