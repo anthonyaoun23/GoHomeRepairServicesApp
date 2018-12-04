@@ -72,7 +72,9 @@ public class HomeOwnerActivity extends AppCompatActivity {
         spRecyclerAdapter.setOnCardClick(new HO_SPAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //  Intent intent=new Intent(HomeOwnerActivity.this, );
+                  Intent intent=new Intent(HomeOwnerActivity.this, BookedServiceItemActivity.class);
+                  intent.putExtra("Provider", resultServiceProviders.get(position));
+                  startActivity(intent);
             }
         });
 
