@@ -27,6 +27,8 @@
         <activity android:name=".AvailabilitySelectorActivity" />
         <activity android:name=".SpAvailabilityActivity" />
         <activity android:name=".HomeOwnerActivity"></activity>
+        <activity android:name=".BookedServiceItemActivity" />
+        <activity android:name=".ServiceRatingActivity"></activity>
     </application>
 
 </manifest>

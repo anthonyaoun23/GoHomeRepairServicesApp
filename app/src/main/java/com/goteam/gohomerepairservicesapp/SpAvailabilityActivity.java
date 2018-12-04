@@ -11,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class SpAvailabilityActivity extends AppCompatActivity {
     private AvailabilityAdapter adapter;
     private ArrayList<TimeOfAvailability> times;
     private ArrayList<String> ids;
+    private Button addAvailabilityButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class SpAvailabilityActivity extends AppCompatActivity {
         setContentView(R.layout.sp_availibility);
         recyclerView = findViewById(R.id.availabilityRecyclerView);
         recyclerView.setHasFixedSize(true);
+        addAvailabilityButton = findViewById(R.id.addAvailabilityButton);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         loadAvailability();
@@ -85,5 +88,10 @@ public class SpAvailabilityActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void addAvailabilityButtonClicked(View view){
+        Intent intent = new Intent(SpAvailabilityActivity.this, AvailabilitySelectorActivity.class);
+        startActivity(intent);
     }
 }

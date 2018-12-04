@@ -34,12 +34,14 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView startTime;
         public TextView endTime;
+        public TextView date;
 
         public ViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             startTime = itemView.findViewById(R.id.begining_time);
             endTime = itemView.findViewById(R.id.end_time);
+            date = itemView.findViewById(R.id.date);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -67,6 +69,8 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
         TimeOfAvailability currentTime = list.get(position);
         holder.startTime.setText(String.format("%d:%d", currentTime.getHourStart(), currentTime.getHourEnd()));
         holder.endTime.setText(String.format("%d:%d", currentTime.getHourEnd(), currentTime.getMinuteEnd()));
+        holder.date.setText(String.format("%d/%d/%d", currentTime.getDay(), currentTime.getMonth(), currentTime.getYear()));
+
 
     }
 
