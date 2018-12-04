@@ -27,6 +27,7 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
     private EditText description;
     private Button done_button;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +39,7 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
         licensed = findViewById(R.id.sp_licensed);
         done_button = findViewById(R.id.sp_done_account_info);
         description = findViewById(R.id.sp_description);
+        licensed=findViewById(R.id.sp_licensed);
         uid = firebaseUser.getUid();
     }
 
@@ -75,13 +77,16 @@ public class ServiceProviderInfoActivity extends AppCompatActivity {
         user.setCompanyName(scompany_name);
         user.setPhoneNumber(snumber);
         user.setDescription(sdescription);
+        if(licensed.isChecked()){
+            user.setLicenced(true);
+        }
 
 
         if (!registerSimpleVerification(saddress, scompany_name, snumber)) {
             return;
         } else {
             database.getReference().child("Users").child(uid).setValue(user);
-            database.getReference().child("Users").child(uid).child("accountFinalized").setValue(true);
+            database.getReference().child("Users").child(uid).child("account_finalized").setValue(true);
             Intent intent = new Intent(ServiceProviderInfoActivity.this, ServiceProviderActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

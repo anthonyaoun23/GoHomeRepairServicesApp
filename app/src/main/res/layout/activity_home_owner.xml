@@ -25,6 +25,7 @@
             android:inputType="textAutoComplete"/>
 
         <RadioGroup
+            android:id="@+id/searchType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="65dp"
@@ -32,26 +33,34 @@
             android:layout_centerHorizontal="true">
 
             <RadioButton
-                android:id="@+id/radioButton4"
+                android:id="@+id/radioService"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="by type of service" />
 
             <RadioButton
-                android:id="@+id/radioButton5"
+                android:id="@+id/radioTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="by time" />
 
             <RadioButton
-                android:id="@+id/radioButton6"
+                android:id="@+id/radioRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="by rating" />
         </RadioGroup>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/provider_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:layout_centerHorizontal="true"
+            tools:listitem="@layout/ho_sp_card"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -63,6 +72,8 @@
             android:layout_marginBottom="30dp"
 
             />
+
+
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

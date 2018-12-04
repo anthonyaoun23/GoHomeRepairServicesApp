@@ -1,26 +1,34 @@
 package com.goteam.gohomerepairservicesapp;
 
 
-
 public class Service {
 
-    private String serviceName;
+    private String name;
     private double hourlyRate;
 
-    public Service(){} //For firebase
+    public Service() {
+    } //For firebase
 
-    public Service(String name, double hourlyRate){
-        this.hourlyRate=hourlyRate;
-        this.serviceName=name;
+    public Service(String name, double hourlyRate) {
+        this.hourlyRate = hourlyRate;
+        this.name = name;
     }
 
-    public void setRate(double rate){
-        hourlyRate=rate;
+    public double getRate() {
+        return hourlyRate;
     }
 
-    public String getServiceName() {return serviceName;}
+    public void setRate(double rate) {
+        hourlyRate = rate;
+    }
 
-    public double getRate() {return hourlyRate;}
+    public String getServiceName() {
+        return name;
+    }
+
+    public void setServiceName(String name) {
+        this.name = name;
+    }
 }
 
 
