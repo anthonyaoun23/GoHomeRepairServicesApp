@@ -1,12 +1,13 @@
 package com.goteam.gohomerepairservicesapp;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ServiceProvider extends User {
+public class ServiceProvider extends User implements Serializable {
 
     private String address, phoneNumber, companyName, description;
     private boolean licenced;
@@ -14,6 +15,7 @@ public class ServiceProvider extends User {
     private ArrayList<Service> services;
     private HashMap<String, TimeOfAvailability> availabilities;
     private String name;
+    private double rating;
 
 
     public ServiceProvider() {
@@ -22,11 +24,20 @@ public class ServiceProvider extends User {
         account_finalized = false;
         services = new ArrayList<>();
         availabilities = new HashMap<>();
+        rating=0;
     }
 
 
     public void setServices(ArrayList<Service> services) {
         this.services = services;
+    }
+
+    public void setRating(Double rating){
+        this.rating=rating;
+    }
+
+    public double getRating(){
+        return rating;
     }
 
     public void setAddress(String address) {
