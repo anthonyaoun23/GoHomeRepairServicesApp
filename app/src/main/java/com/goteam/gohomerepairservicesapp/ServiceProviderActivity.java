@@ -184,6 +184,10 @@ public class ServiceProviderActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        return ;
+    }
 
     public void btnViewAvailibilityClicked(View view) {
         Intent intent = new Intent(this, SpAvailabilityActivity.class);
