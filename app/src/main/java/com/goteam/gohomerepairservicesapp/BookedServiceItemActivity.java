@@ -85,6 +85,13 @@ public class BookedServiceItemActivity extends AppCompatActivity {
         this.ratingText.setText(ratingText.getText().toString()+" "+provider.getRating());
     }
 
+    public void addRatingButton(View view){
+
+        Intent intent = new Intent(BookedServiceItemActivity.this, ServiceRatingActivity.class);
+        startActivity(intent);
+    }
+
+
     public ArrayList<TimeOfAvailability> getAvail(){
         ArrayList<TimeOfAvailability> timmyReturner = new ArrayList<>();
         for(TimeOfAvailability availability:provider.getAvailabilities().values() ){
