@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class BookedServiceAdapter extends RecyclerView.Adapter<BookedServiceAdap
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+        void onAddClick(int position);
     }
 
     public BookedServiceAdapter(ArrayList<Service> list){
@@ -30,12 +32,14 @@ public class BookedServiceAdapter extends RecyclerView.Adapter<BookedServiceAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView service_name;
         public TextView service_rate;
+        public ImageView addButton;
 
         public ViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             service_name = itemView.findViewById(R.id.service_title);
             service_rate = itemView.findViewById(R.id.service_rate);
+            addButton = itemView.findViewById(R.id.service_add);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -43,6 +47,19 @@ public class BookedServiceAdapter extends RecyclerView.Adapter<BookedServiceAdap
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onAddClick(position);
+
                         }
                     }
                 }

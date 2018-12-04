@@ -18,8 +18,10 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,6 +52,10 @@ public class HomeOwnerActivity extends AppCompatActivity {
     private ArrayAdapter<Integer> ratingsAdapter;
     private LocalDateTime selectedDateTime;
     private RadioGroup searchType;
+    private RecyclerView providerRecycler;
+    private FirebaseUser firebaseUser;
+    private String uid;
+    private Homeowner homeOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,30 @@ public class HomeOwnerActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home_owner);
 
-        RecyclerView providerRecycler = findViewById(R.id.provider_recycler);
+
+
+        //Load user
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        uid = firebaseUser.getUid();
+        //Load current services owned by the sp
+        database.getReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                homeOwner = dataSnapshot.child(uid).getValue(Homeowner.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(HomeOwnerActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+
+
+        providerRecycler = findViewById(R.id.provider_recycler);
         searchType = findViewById(R.id.searchType);
         servicesSpinner = findViewById(R.id.servicesSpinner);
         ratingsSpinner = findViewById(R.id.ratingsSpinner);

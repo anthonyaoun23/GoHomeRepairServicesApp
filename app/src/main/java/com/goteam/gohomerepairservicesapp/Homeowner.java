@@ -17,6 +17,8 @@ public class Homeowner extends User {
         return "Homeowner";
     }
 
+    public void setBookings() { this.bookings = bookings; }
+
     public void addBooking(Booking booking){
         this.bookings.add(booking);
     }
