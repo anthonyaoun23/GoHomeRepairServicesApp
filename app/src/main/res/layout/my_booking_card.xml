@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/serviceProvider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:text="Service Provider"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-----------------------"
+            android:textColor="@android:color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/bookingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="20dp"
+            android:text="Booking Time"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

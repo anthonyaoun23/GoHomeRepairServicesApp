@@ -26,9 +26,10 @@
         <activity android:name=".ServiceProviderInfoActivity" />
         <activity android:name=".AvailabilitySelectorActivity" />
         <activity android:name=".SpAvailabilityActivity" />
-        <activity android:name=".HomeOwnerActivity"></activity>
+        <activity android:name=".HomeOwnerActivity" />
         <activity android:name=".BookedServiceItemActivity" />
-        <activity android:name=".ServiceRatingActivity"></activity>
+        <activity android:name=".ServiceRatingActivity" />
+        <activity android:name=".MyBookingsActivity"></activity>
     </application>
 
 </manifest>

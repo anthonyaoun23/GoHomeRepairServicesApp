@@ -104,4 +104,5 @@ public class ServiceProvider extends User implements Serializable {
     public HashMap<String, TimeOfAvailability> getAvailabilities() {
         return availabilities;
     }
+
 }

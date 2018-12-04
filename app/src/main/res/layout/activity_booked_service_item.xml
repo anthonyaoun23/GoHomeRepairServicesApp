@@ -9,7 +9,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <TextView
             android:id="@+id/serviceProvider"
@@ -46,10 +50,42 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/addARatingbutton"
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bookedServicesRV"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/sp_services_card" >
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:text="Availability"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sp_availabilityList"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/sp_availability_card" >
+
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/addARatingbutton"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
             android:text="Add A Rating" />
+
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

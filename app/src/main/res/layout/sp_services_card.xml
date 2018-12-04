@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="0dp"
+    android:backgroundTint="#1a8bbf">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+
+        <TextView
+            android:id="@+id/service_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10sp"
+            android:text="Test"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/service_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="10sp"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/service_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@drawable/ic_add_black_24dp" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
