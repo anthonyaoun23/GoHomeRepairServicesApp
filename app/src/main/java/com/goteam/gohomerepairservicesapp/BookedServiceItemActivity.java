@@ -22,6 +22,7 @@ public class BookedServiceItemActivity extends AppCompatActivity {
     Button addRatingButton;
     DatabaseReference user;
     String timeId, serviceName, serviceRate;
+    ServiceProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,47 +30,16 @@ public class BookedServiceItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_booked_service_item);
 
         nameOfServiceProvider = findViewById(R.id.nameOfServiceProvider);
-        nameOfSPCompany = findViewById(R.id.nameOfSPCompany);
         numberOfSP = findViewById(R.id.numberOfSP);
 
         addRatingButton = findViewById(R.id.addARatingbutton);
 
         Intent intent = getIntent();
-        String key = intent.getStringExtra("key");
+        provider = (ServiceProvider)intent.getSerializableExtra("Provider");
+        numberOfSP.setText(provider.getPhoneNumber());
+        nameOfServiceProvider.setText(provider.getCompanyName());
 
-        if (key != null) {
-            timeId = key;
-            findViewById(R.id.deleteTimeButton).setVisibility(View.VISIBLE);
 
-            user.child("bookedServices").child(key).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    ServiceProvider serviceProvider = dataSnapshot.getValue(ServiceProvider.class);
-
-                    if (serviceProvider == null)
-                        return;
-
-//                    serviceName = serviceProvider.
-//                    serviceRate = String.valueOf(service.getRate());
-//
-//                    nameOfService.setText(serviceName);
-//                    rateOfService.setText("$"+serviceRate);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        } else {
-            serviceName = "Service Name";
-            serviceRate = "$0";
-
-//            nameOfService.setText(serviceName);
-//            rateOfService.setText("$"+serviceRate);
         }
 
     }
-
-
-}

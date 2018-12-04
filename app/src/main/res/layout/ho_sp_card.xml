@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@android:color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="0dp"
     android:backgroundTint="#1a8bbf">
 
     <RelativeLayout

@@ -149,6 +149,10 @@ public class HomeOwnerActivity extends AppCompatActivity {
         finish();
         startActivity(new Intent(this, MainActivity.class));
     }
+
+    public void btnBookingsClicked(View view){
+        //startActivity(new Intent(this, MyBookingsActivity.class));
+    }
 }
 
 

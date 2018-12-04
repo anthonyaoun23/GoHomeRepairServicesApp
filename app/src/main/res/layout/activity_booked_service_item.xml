@@ -30,13 +30,6 @@
             android:text="Service Provider Phone Number" />
 
         <TextView
-            android:id="@+id/nameOfSPCompany"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Service Provider Company" />
-
-        <TextView
             android:id="@+id/nameOfServiceProvider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
