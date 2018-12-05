@@ -74,6 +74,12 @@ public class BasicUnitTest {
         assertEquals("Check if a booking has the correct rate", 15.0, bBooking.getRate(), 0.01);
     }
 
+    @Test
+    public void checkServiceProviderRating() {
+        ServiceProvider aServiceProvider = new ServiceProvider();
+        aServiceProvider.setRating(3.0);
+        assertEquals("Check if a rating has the correct value", 3.0, aServiceProvider.getRating(), 0.01);
+    }
 
 
 
