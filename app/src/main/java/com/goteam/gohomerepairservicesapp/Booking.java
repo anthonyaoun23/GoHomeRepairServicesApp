@@ -18,7 +18,7 @@ public class Booking implements Serializable {
     public Booking(){
     }
 
-    public Booking(String bookingName, ServiceProvider serviceProvider, TimeOfAvailability dateTime, Service service, Double rate){
+    public Booking(String bookingName, ServiceProvider serviceProvider, TimeOfAvailability dateTime, Service service, double rate){
         this.serviceProvider = serviceProvider;
         this.dateTime=dateTime;
         this.bookingName = bookingName;
@@ -30,17 +30,22 @@ public class Booking implements Serializable {
         return serviceProvider;
     }
 
+
     public TimeOfAvailability getDateTime(){
         return dateTime;
     }
 
-    public Double getRate(){return rate;}
+
+    public double getRate(){return rate;}
 
     public Service getService(){ return service;}
+
 
     public String getBookingName(){
         return bookingName;
     }
+
+    public void setRate(double rate){this.rate=rate;}
 
     public void setBookingName(String bookingName) { this.bookingName = bookingName; }
 }

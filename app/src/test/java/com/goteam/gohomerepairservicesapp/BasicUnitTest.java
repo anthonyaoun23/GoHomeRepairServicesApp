@@ -1,5 +1,6 @@
 package com.goteam.gohomerepairservicesapp;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -56,6 +57,25 @@ public class BasicUnitTest {
         aServiceProvider.setAddress("411 Keith Cres.");
         assertEquals("Check if a service provider has the correct address", "411 Keith Cres.", aServiceProvider.getAddress());
     }
+
+    // Tests for Deliverable 4
+
+    @Test
+    public void checkBookingName() {
+        Booking aBooking = new Booking();
+        aBooking.setBookingName("Plumbing");
+        assertEquals("Check if a booking has the correct name", "Plumbing", aBooking.getBookingName());
+    }
+
+    @Test
+    public void checkBookingRate() {
+        Booking bBooking = new Booking();
+        bBooking.setRate(15.0);
+        assertEquals("Check if a booking has the correct rate", 15.0, bBooking.getRate(), 0.01);
+    }
+
+
+
 
 
 }
