@@ -100,5 +100,36 @@ public class BasicUnitTest {
         assertTrue("Check if a search is by rating", aHomeOwner.getSearchRating());
     }
 
+    @Test
+    public void checkBookingDateTime() {
+        Booking aBooking = new Booking();
+        TimeOfAvailability aTime = new TimeOfAvailability();
+        aBooking.setDateTime(aTime);
+        assertEquals("Check if a dateTime has the correct date and time", aTime, aBooking.getDateTime());
+    }
+    @Test
+    public void checkBookingServiceProvider() {
+        Booking aBooking = new Booking();
+        ServiceProvider aServiceProvider = new ServiceProvider();
+        aBooking.setServiceProvider(aServiceProvider);
+        assertEquals("Check if a ServiceProvider has the correct service provider", aServiceProvider, aBooking.getServiceProvider());
+    }
+    @Test
+    public void checkBookingService() {
+        Booking aBooking = new Booking();
+        Service aService = new Service();
+        aBooking.setService(aService);
+        assertEquals("Check if a Service has the correct service", aService, aBooking.getService());
+    }
+
+    @Test
+    public void checkBookingNameSet() {
+        Booking aBooking = new Booking();
+        aBooking.setBookingNameSet(true);
+        assertTrue("Check if a Service has the correct service", aBooking.getBookingNameSet());
+    }
+
+
+
 
 }

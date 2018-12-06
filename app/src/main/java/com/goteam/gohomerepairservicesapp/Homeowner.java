@@ -14,11 +14,13 @@ public class Homeowner extends User {
     }
 
     @Override
+
+
     public String getRoleName() {
         return "Homeowner";
     }
 
-    public void setBookings() { this.bookings = bookings; }
+    public void setBookings(ArrayList<Booking> bookings) { this.bookings = bookings; }
 
     public void addBooking(Booking booking){
         this.bookings.add(booking);
