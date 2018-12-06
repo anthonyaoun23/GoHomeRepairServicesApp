@@ -81,7 +81,24 @@ public class BasicUnitTest {
         assertEquals("Check if a rating has the correct value", 3.0, aServiceProvider.getRating(), 0.01);
     }
 
-
+    @Test
+    public void checkSearchType() {
+        Homeowner aHomeOwner = new Homeowner();
+        aHomeOwner.setSearchType(true);
+        assertTrue("Check if a search is by type", aHomeOwner.getSearchType());
+    }
+    @Test
+    public void checkSearchTime() {
+        Homeowner aHomeOwner = new Homeowner();
+        aHomeOwner.setSearchTime(true);
+        assertTrue("Check if a search is by time", aHomeOwner.getSearchTime());
+    }
+    @Test
+    public void checkSearchRating() {
+        Homeowner aHomeOwner = new Homeowner();
+        aHomeOwner.setSearchRating(true);
+        assertTrue("Check if a search is by rating", aHomeOwner.getSearchRating());
+    }
 
 
 }
